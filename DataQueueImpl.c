@@ -11,8 +11,6 @@ QueueHandle_t xQueueCO2;
 
 void initializeQueues() {
 	xQueueCO2 = xQueueCreate(15, sizeof(uint16_t));
-	
-	
 }
 
 void enqueueCO2Measure(uint16_t ppm){
@@ -25,5 +23,5 @@ uint16_t dequeueCO2Measure(){
 	ppmpointer = &ppm;
 	
 	xQueueReceive(xQueueCO2, &ppm, portMAX_DELAY);
-	printf("CO2 PPM: %d", *ppmpointer);
+	return ppm;
 }

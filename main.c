@@ -18,6 +18,7 @@
 #include <mh_z19.h>
 #include "CO2Handler.h"
 #include "DataQueue.h"
+#include "SharedDataQueue.h"
 
  // Needed for LoRaWAN
 #include <lora_driver.h>
@@ -82,7 +83,7 @@ void task1( void *pvParameters )
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		dequeueCO2Measure();
+		enqueueSharedData();
 	}
 }
 
@@ -130,6 +131,7 @@ void initialiseSystem()
 	
 	// Initialize queues
 	initializeQueues();
+	initializeSharedDataQueue();
 }
 
 /*-----------------------------------------------------------*/

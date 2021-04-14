@@ -57,6 +57,7 @@ C_SRCS +=  \
 ../FreeRTOS/src/timers.c \
 ../FreeRTOS/src/variantHooks.c \
 ../DataQueueImpl.c \
+../SharedDataQueue.c \
 ../LoRaWANHandler.c \
 ../main.c
 
@@ -81,6 +82,7 @@ FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
 DataQueueImpl.o \
+SharedDataQueue.o \
 LoRaWANHandler.o \
 main.o
 
@@ -98,6 +100,7 @@ FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
 DataQueueImpl.o \
+SharedDataQueue.o \
 LoRaWANHandler.o \
 main.o
 
@@ -115,6 +118,7 @@ FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
 DataQueueImpl.d \
+SharedDataQueue.d \
 LoRaWANHandler.d \
 main.d
 
@@ -132,6 +136,7 @@ FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
 DataQueueImpl.d \
+SharedDataQueue.d \
 LoRaWANHandler.d \
 main.d
 
@@ -234,6 +239,13 @@ FreeRTOS/src/variantHooks.o: ../FreeRTOS/src/variantHooks.c
 	
 
 ./DataQueueImpl.o: .././DataQueueImpl.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./SharedDataQueue.o: .././SharedDataQueue.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
