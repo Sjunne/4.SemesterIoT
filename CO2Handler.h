@@ -8,6 +8,6 @@
 #pragma once
 #include <stdio.h>
 #include <mh_z19.h>
-
+#include "DataQueue.h"
 
 void co2Measure();

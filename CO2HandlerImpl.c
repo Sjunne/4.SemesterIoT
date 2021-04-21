@@ -6,7 +6,7 @@
  */ 
 
 #include "CO2Handler.h"
-#include "DataQueue.h"
+
 
 void co2MeasureCallBack(uint16_t ppm)
 {

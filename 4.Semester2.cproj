@@ -297,7 +297,10 @@
     <Compile Include="DataQueueImpl.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SharedDataQueue.c">
+    <Compile Include="LoRaWANHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SharedDataQueueImpl.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SharedDataQueue.h">
@@ -365,7 +368,7 @@
     <None Include="FreeRTOS\src\LICENSE.md">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="LoRaWANHandler.c">
+    <Compile Include="LoRaWANHandlerImpl.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

@@ -19,9 +19,7 @@ void enqueueCO2Measure(uint16_t ppm){
 
 uint16_t dequeueCO2Measure(){
 	uint16_t ppm;
-	uint16_t* ppmpointer;
-	ppmpointer = &ppm;
 	
-	xQueueReceive(xQueueCO2, &ppm, portMAX_DELAY);
+	xQueueReceive(xQueueCO2, &ppm, 1500);
 	return ppm;
 }

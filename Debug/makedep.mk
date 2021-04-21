@@ -28,9 +28,9 @@ FreeRTOS\src\variantHooks.c
 
 DataQueueImpl.c
 
-SharedDataQueue.c
+SharedDataQueueImpl.c
 
-LoRaWANHandler.c
+LoRaWANHandlerImpl.c
 
 main.c
 
