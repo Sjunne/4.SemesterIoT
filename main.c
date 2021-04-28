@@ -11,148 +11,22 @@
 
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
-#include <semphr.h>
 
 #include <stdio_driver.h>
 #include <serial.h>
 #include <string.h>
 #include <mh_z19.h>
-#include "CO2Handler.h"
 #include "SharedDataQueue.h"
+#include "TaskHandler.h"
 
  // Needed for LoRaWAN
 #include <lora_driver.h>
 #include <status_leds.h>
 
-// define two Tasks
-void task1( void *pvParameters );
-void task2( void *pvParameters );
-void task3( void *pvParameters );
-
-// define semaphore handle
-SemaphoreHandle_t xTestSemaphore;
-
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
 
-
-/*-----------------------------------------------------------*/
-void create_tasks_and_semaphores(void)
-{
-	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
-	// because it is sharing a resource, such as the Serial port.
-	// Semaphores should only be used whilst the scheduler is running, but we can set it up here.
-	if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
-	{
-		xTestSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore.
-		if ( ( xTestSemaphore ) != NULL )
-		{
-			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
-		}
-	}
-
-	xTaskCreate(
-	task1
-	,  "Task1"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
-
-	xTaskCreate(
-	task2
-	,  "Task2"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
-	
-	xTaskCreate(
-	task3
-	,  "Task3"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
-}
-
-/*-----------------------------------------------------------*/
-void task1( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 2500/portTICK_PERIOD_MS; // 2500 ms
-
-	// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-	
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		co2Measure(); // Call CO2HandlerImpl to take measure
-
-	}
-}
-
-/*-----------------------------------------------------------*/
-void task2( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 3000/portTICK_PERIOD_MS; // 5500 ms
-
-	// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		enqueueSharedData(); // Call SharedDataQueueImpl to enqueue the measures
-		
-	}
-}
-
-
-void task3( void *pvParameters )
-{
-
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 10000/portTICK_PERIOD_MS; // 10 s
-
-	// Initialise the xLastWakeTime variable with the current time.
-	xLastWakeTime = xTaskGetTickCount();
-	
-	SharedData_t sharedDataArray[15];
-	
-	for(;;)
-	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		int arrayIndex = 0;
-		SharedDataWithReturnCode_t dequeueData;
-		bool flag = true;
-		
-		while(flag) {
-			dequeueData = dequeueSharedData(); // Call SharedDataQueueImpl to dequeue the measures
-			if (dequeueData->returnCode == OK)
-			{
-				printf("Dequeueing OK \n");
-				sharedDataArray[arrayIndex] = dequeueData->sharedData;
-			}
-			else if(dequeueData->returnCode == ENDOFQUEUE)
-			{
-				printf("Dequeueing ENDOFQUEUE \n");
-				for(int i = 0; i < (sizeof(sharedDataArray) / sizeof(SharedData)); i++)
-				{
-					printf("i is: %d \n", i);
-					printf("Sending to lorawan: %d \n", sharedDataArray[i]->co2);
-				}
-				flag = false;
-				// memset(sharedDataArray, 0, sizeof sharedDataArray);  JUST TO CLEAR MEMORY
-			}
-			arrayIndex++;
-		}
-		
-	}
-}
 
 /*-----------------------------------------------------------*/
 void initialiseSystem()
@@ -162,16 +36,15 @@ void initialiseSystem()
 
 	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
 	stdio_initialise(ser_USART0);
-	// Let's create some tasks
-	create_tasks_and_semaphores();
+	
 
 	// vvvvvvvvvvvvvvvvv BELOW IS LoRaWAN initialisation vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	//lora_driver_initialise(1, NULL);
+	lora_driver_initialise(1, NULL);
 	// Create LoRaWAN task and start it up with priority 3
-	//lora_handler_initialise(3);
+	lora_handler_initialise(3);
 	
 	// Initializing co2 sensor
 	mh_z19_initialise(ser_USART3);
@@ -187,8 +60,7 @@ int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
 	printf("Program Started!!\n");
-	vTaskStartScheduler(); // Initialise and run the freeRTOS scheduler. Execution should never return from here.
-
+	startTasks();
 
 	/* Replace with your application code */
 	while (1)

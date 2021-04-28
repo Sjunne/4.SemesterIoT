@@ -7,8 +7,8 @@
 #include "LoRaWANHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#define LORA_appEUI "6818B76654F89545"
+#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
 static char _out_buf[100];
 
@@ -81,6 +81,7 @@ static void _lora_setup(void)
 	{
 		// Connected to LoRaWAN :-)
 		// Make the green led steady
+		printf("\t We have been accepted \n");
 		status_leds_ledOn(led_ST2); // OPTIONAL
 	}
 	else
@@ -102,6 +103,7 @@ static void _lora_setup(void)
 /*-----------------------------------------------------------*/
 void lora_handler_task( void *pvParameters )
 {
+	
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
@@ -112,6 +114,8 @@ void lora_handler_task( void *pvParameters )
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 
 	_lora_setup();
+
+	printf("\t Do we get here? \n");
 
 	_uplink_payload.len = 6;
 	_uplink_payload.portNo = 2;

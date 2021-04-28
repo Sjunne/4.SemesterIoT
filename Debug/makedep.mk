@@ -30,6 +30,8 @@ DataQueueImpl.c
 
 SharedDataQueueImpl.c
 
+TaskHandlerImpl.c
+
 LoRaWANHandlerImpl.c
 
 main.c
