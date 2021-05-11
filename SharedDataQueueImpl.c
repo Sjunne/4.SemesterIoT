@@ -7,10 +7,10 @@
 #include "SharedDataQueue.h"
 
 QueueHandle_t xQueueShared;
-SharedData myDataQueue;
+SharedData_t myDataQueue;
 SharedData receiveSharedData;
-SharedDataWithReturnCode sharedDataWithReturnCode;
 BaseType_t xStatus;
+SharedData enqueueSharedData2;
 
 void initializeSharedDataQueue()
 {
@@ -20,23 +20,44 @@ void initializeSharedDataQueue()
 void enqueueSharedData()
 {
 	uint16_t co2 = dequeueCO2Measure();
-	//uint16_t temp = dequeueTempMeasure();
-	//uint16_t light = dequeueLightMeasure();
-	printf("Enqueuing Shared Data CO2: %d \n" , co2);
+	int16_t temp = dequeueTempMeasure();
+	uint16_t hum = dequeueHumidityMeasure();
 
 	// TODO:
-	SharedData_t shared = pvPortMalloc(sizeof(SharedData)); //Allocation memory to SharedData
+	//SharedData_t shared = pvPortMalloc(sizeof(SharedData)); VIRKER"HALVT"
+	SharedData_t shared = &enqueueSharedData2;
 	shared->co2 = co2;
+	shared->temperature = temp;
+	shared->humidity = hum;
+		
+TickType_t xLastWakeTime2;
+		const TickType_t xFrequency2 = 5/portTICK_PERIOD_MS;
+		xLastWakeTime2 = xTaskGetTickCount();
+
+
+		xTaskDelayUntil( &xLastWakeTime2, xFrequency2 );
+		printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
+
+		
+	//xQueueSend(xQueueShared, (void*)&shared, portMAX_DELAY); VIRKER"HALVT"
+	xQueueSend(xQueueShared, (void*)&enqueueSharedData2, portMAX_DELAY);
 	
-	xQueueSend(xQueueShared, (void*)&shared, portMAX_DELAY);
+	vPortFree(shared);
 }
 
+SharedData_t dequeueSharedData() {
+	SharedData_t data = &receiveSharedData;
+	xQueueReceive(xQueueShared, &receiveSharedData, (TickType_t) 10);
+	return data;
+}
+
+/*
 SharedDataWithReturnCode_t dequeueSharedData()
 {
+
 	SharedData_t received = &receiveSharedData;
 	
 	SharedDataWithReturnCode_t sharedDataToReturn = &sharedDataWithReturnCode;
-	
 	
 	xStatus = xQueueReceive(xQueueShared, &received, (TickType_t) 10);
 	
@@ -48,6 +69,6 @@ SharedDataWithReturnCode_t dequeueSharedData()
 		sharedDataToReturn->returnCode = ENDOFQUEUE;
 	}
 	
-	vPortFree(received);
 	return sharedDataToReturn;
 }
+*/

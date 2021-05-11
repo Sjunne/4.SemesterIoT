@@ -10,6 +10,7 @@
 
 #include <ATMEGA_FreeRTOS.h>
 #include <task.h>
+#include "TempHumHandler.h"
 
 #include "CO2Handler.h"
 #include "SharedDataQueue.h"

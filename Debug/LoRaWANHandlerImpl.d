@@ -23,7 +23,10 @@ LoRaWANHandlerImpl.d LoRaWANHandlerImpl.o: .././LoRaWANHandlerImpl.c \
  ../FreeRTOS/src/list.h ../drivers/lora_driver.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
- ../drivers/serial.h ../drivers/status_leds.h
+ ../drivers/serial.h ../drivers/status_leds.h .././SharedDataQueue.h \
+ ../FreeRTOS/src/queue.h .././CO2Handler.h ../drivers/mh_z19.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ .././TempHumHandler.h ../drivers/hih8120.h
 
 .././LoRaWANHandler.h:
 
@@ -88,3 +91,17 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../drivers/serial.h:
 
 ../drivers/status_leds.h:
+
+.././SharedDataQueue.h:
+
+../FreeRTOS/src/queue.h:
+
+.././CO2Handler.h:
+
+../drivers/mh_z19.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+.././TempHumHandler.h:
+
+../drivers/hih8120.h:

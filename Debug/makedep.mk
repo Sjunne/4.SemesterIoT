@@ -26,11 +26,11 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
-DataQueueImpl.c
-
 SharedDataQueueImpl.c
 
 TaskHandlerImpl.c
+
+TempHumHandler.c
 
 LoRaWANHandlerImpl.c
 

@@ -5,12 +5,12 @@
 *  Author: IHA
 */
 #include "LoRaWANHandler.h"
+#include "SharedDataQueue.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "6818B76654F89545"
 #define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
-static char _out_buf[100];
 
 void lora_handler_task( void *pvParameters );
 
@@ -29,6 +29,8 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 
 static void _lora_setup(void)
 {
+
+	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
 
@@ -103,7 +105,8 @@ static void _lora_setup(void)
 /*-----------------------------------------------------------*/
 void lora_handler_task( void *pvParameters )
 {
-	
+
+
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
@@ -115,31 +118,88 @@ void lora_handler_task( void *pvParameters )
 
 	_lora_setup();
 
-	printf("\t Do we get here? \n");
+	// PRINTS OUT GARBAGE IN FOR LOOP
+	//PackageData_t payload = pvPortMalloc(sizeof(PackageData));
 
-	_uplink_payload.len = 6;
+	//int i;
+	//for (i = 0; i<15; i++) {
+	//	//printf("\t %d \n", i);
+	//	payload->sharedDataArray[0].co2 = 500;
+	//	payload->sharedDataArray[0].humidity = 200;
+	//	payload->sharedDataArray[0].temp = 20;
+	//	payload->sharedDataArray[0].timestamp = 1530;
+	//}
+	
+	//payload->growbroId = 8;
+	
+
+
+	_uplink_payload.len = 10;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(150000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
-	
+
+
 	for(;;)
 	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
+
+			printf("\t going into delay \n");
+			xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		//	// OUR OWN PAYLOAD
+		//	printf("\t delay done \n");
+		//	_uplink_payload.bytes[0] = payload->growbroId >> 8;
+		//	_uplink_payload.bytes[1] = payload->growbroId & 0xFF;
+		//	_uplink_payload.bytes[2] = payload->sharedDataArray[0].co2 >> 8;
+		//	_uplink_payload.bytes[3] = payload->sharedDataArray[0].co2 & 0xFF;
+		//	_uplink_payload.bytes[4] = payload->sharedDataArray[0].humidity >> 8;
+		//	_uplink_payload.bytes[5] = payload->sharedDataArray[0].humidity & 0xFF;
+		//	_uplink_payload.bytes[6] = payload->sharedDataArray[0].temp >> 8;
+		//	_uplink_payload.bytes[7] = payload->sharedDataArray[0].temp & 0xFF;
+		//	_uplink_payload.bytes[8] = payload->sharedDataArray[0].timestamp >> 8;
+		//	_uplink_payload.bytes[9] = payload->sharedDataArray[0].timestamp & 0xFF;
+		//
+		//	int uplinkcounter = 2;
+		
+		// printf("\t Before big for loop \n");
+		//for (int arraycounter = 0; arraycounter<15; arraycounter++) {
+		//	_uplink_payload.bytes[uplinkcounter] = payload->sharedDataArray[arraycounter]->co2 >> 8;
+		//	_uplink_payload.bytes[uplinkcounter + 1] = payload->sharedDataArray[arraycounter]->co2 & 0xFF;
+		//
+		//	uplinkcounter += 2;
+		//
+		//	_uplink_payload.bytes[uplinkcounter] = payload->sharedDataArray[arraycounter]->humidity >> 8;
+		//	_uplink_payload.bytes[uplinkcounter + 1] = payload->sharedDataArray[arraycounter]->humidity & 0xFF;
+		//
+		//	uplinkcounter += 2;
+		//
+		//	_uplink_payload.bytes[uplinkcounter] = payload->sharedDataArray[arraycounter]->temp >> 8;
+		//	_uplink_payload.bytes[uplinkcounter + 1] = payload->sharedDataArray[arraycounter]->temp & 0xFF;
+		//
+		//	uplinkcounter += 2;
+		//
+		//	_uplink_payload.bytes[uplinkcounter] = payload->sharedDataArray[arraycounter]->timestamp >> 8;
+		//	_uplink_payload.bytes[uplinkcounter + 1] = payload->sharedDataArray[arraycounter]->timestamp & 0xFF;
+		//
+		//	uplinkcounter += 2;
+		//}
+
+		
+		// printf("\t after big for loop \n");
 		// Some dummy payload
-		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
-		uint16_t co2_ppm = 1050; // Dummy CO2
-		// Make own payload consisting of struct
-
-		_uplink_payload.bytes[0] = hum >> 8;
-		_uplink_payload.bytes[1] = hum & 0xFF;
-		_uplink_payload.bytes[2] = temp >> 8;
-		_uplink_payload.bytes[3] = temp & 0xFF;
-		_uplink_payload.bytes[4] = co2_ppm >> 8;
-		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
+		//uint16_t hum = 12345; // Dummy humidity
+		//int16_t temp = 675; // Dummy temp
+		//uint16_t co2_ppm = 1050; // Dummy CO2
+		//// Make own payload consisting of struct
+		//
+		//_uplink_payload.bytes[0] = hum >> 8;
+		//_uplink_payload.bytes[1] = hum & 0xFF;
+		//_uplink_payload.bytes[2] = temp >> 8;
+		//_uplink_payload.bytes[3] = temp & 0xFF;
+		//_uplink_payload.bytes[4] = co2_ppm >> 8;
+		//_uplink_payload.bytes[5] = co2_ppm & 0xFF;
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
