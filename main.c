@@ -54,7 +54,6 @@ printf("Program Started!!\n");
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
-	// KAN IKKE KØRE MED DENNE METODE
 	MessageBufferHandle_t downlinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 	lora_driver_initialise(1, NULL);
 	// Create LoRaWAN task and start it up with priority 3
