@@ -14,8 +14,8 @@ QueueHandle_t xQueueHum;
 
 void initializeTempHumQueues()
 {
-	xQueueTemp = xQueueCreate(15, sizeof(int16_t));
-	xQueueHum = xQueueCreate(15, sizeof(uint16_t));
+	xQueueTemp = xQueueCreate(5, sizeof(int16_t));
+	xQueueHum = xQueueCreate(5, sizeof(uint16_t));
 }
 
 void enqueueTemperature(int16_t temp){
@@ -31,7 +31,7 @@ void tempHumMeasure()
 {
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = 5/portTICK_PERIOD_MS; 
-		const TickType_t xFrequency2 = 50/portTICK_PERIOD_MS;
+	const TickType_t xFrequency2 = 50/portTICK_PERIOD_MS;
 
 	xLastWakeTime = xTaskGetTickCount();
 

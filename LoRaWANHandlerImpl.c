@@ -144,20 +144,24 @@ void lora_handler_task( void *pvParameters )
 
 	for(;;)
 	{
-
-
+		uint16_t growbroId = 111;
+		
 			printf("\t going into delay \n");
 			xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		//	// OUR OWN PAYLOAD
-		//	printf("\t delay done \n");
-		//	_uplink_payload.bytes[0] = payload->growbroId >> 8;
-		//	_uplink_payload.bytes[1] = payload->growbroId & 0xFF;
-		//	_uplink_payload.bytes[2] = payload->sharedDataArray[0].co2 >> 8;
-		//	_uplink_payload.bytes[3] = payload->sharedDataArray[0].co2 & 0xFF;
-		//	_uplink_payload.bytes[4] = payload->sharedDataArray[0].humidity >> 8;
-		//	_uplink_payload.bytes[5] = payload->sharedDataArray[0].humidity & 0xFF;
-		//	_uplink_payload.bytes[6] = payload->sharedDataArray[0].temp >> 8;
-		//	_uplink_payload.bytes[7] = payload->sharedDataArray[0].temp & 0xFF;
+			
+			SharedData_t sharedData;
+			sharedData = dequeueSharedData();
+			printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
+			// OUR OWN PAYLOAD
+			printf("\t delay done \n");
+			_uplink_payload.bytes[0] = growbroId >> 8;
+			_uplink_payload.bytes[1] = growbroId & 0xFF;
+			_uplink_payload.bytes[2] = sharedData->co2 >> 8;
+			_uplink_payload.bytes[3] = sharedData->co2 & 0xFF;
+			_uplink_payload.bytes[4] = sharedData->humidity >> 8;
+			_uplink_payload.bytes[5] = sharedData->humidity & 0xFF;
+			_uplink_payload.bytes[6] = sharedData->temperature >> 8;
+			_uplink_payload.bytes[7] = sharedData->temperature & 0xFF;
 		//	_uplink_payload.bytes[8] = payload->sharedDataArray[0].timestamp >> 8;
 		//	_uplink_payload.bytes[9] = payload->sharedDataArray[0].timestamp & 0xFF;
 		//

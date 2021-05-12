@@ -10,7 +10,7 @@
 QueueHandle_t xQueueCO2;
 
 void initializeCO2Queue() {
-	xQueueCO2 = xQueueCreate(15, sizeof(uint16_t));
+	xQueueCO2 = xQueueCreate(5, sizeof(uint16_t));
 }
 
 

@@ -14,7 +14,7 @@ SharedData enqueueSharedData2;
 
 void initializeSharedDataQueue()
 {
-	xQueueShared = xQueueCreate(15, sizeof(SharedData));
+	xQueueShared = xQueueCreate(5, sizeof(SharedData));
 }
 
 void enqueueSharedData()
@@ -42,7 +42,7 @@ TickType_t xLastWakeTime2;
 	//xQueueSend(xQueueShared, (void*)&shared, portMAX_DELAY); VIRKER"HALVT"
 	xQueueSend(xQueueShared, (void*)&enqueueSharedData2, portMAX_DELAY);
 	
-	vPortFree(shared);
+	//vPortFree(shared);
 }
 
 SharedData_t dequeueSharedData() {
