@@ -1,5 +1,7 @@
-SharedDataQueue.d SharedDataQueue.o: .././SharedDataQueue.c \
- .././SharedDataQueue.h ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
+measuredrivers/TempHumHandler.d measuredrivers/TempHumHandler.o: \
+ ../measuredrivers/TempHumHandler.c \
+ ../measuredrivers/../measuredrivers/header/TempHumHandler.h \
+ ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
@@ -18,12 +20,14 @@ SharedDataQueue.d SharedDataQueue.o: .././SharedDataQueue.c \
  ../FreeRTOS/src/FreeRTOSVariant.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
- ../FreeRTOS/src/list.h ../FreeRTOS/src/queue.h .././DataQueue.h \
+ ../FreeRTOS/src/list.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
+ ../FreeRTOS/src/queue.h ../drivers/hih8120.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h
 
-.././SharedDataQueue.h:
+../measuredrivers/../measuredrivers/header/TempHumHandler.h:
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -71,12 +75,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/src/list.h:
 
-../FreeRTOS/src/queue.h:
-
-.././DataQueue.h:
-
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
+
+../FreeRTOS/src/queue.h:
+
+../drivers/hih8120.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:

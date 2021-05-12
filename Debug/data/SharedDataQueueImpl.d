@@ -1,5 +1,6 @@
-TaskHandlerImpl.d TaskHandlerImpl.o: .././TaskHandlerImpl.c \
- .././TaskHandler.h ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
+data/SharedDataQueueImpl.d data/SharedDataQueueImpl.o: \
+ ../data/SharedDataQueueImpl.c ../data/../data/header/SharedDataQueue.h \
+ ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
@@ -18,16 +19,18 @@ TaskHandlerImpl.d TaskHandlerImpl.o: .././TaskHandlerImpl.c \
  ../FreeRTOS/src/FreeRTOSVariant.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
- ../FreeRTOS/src/list.h ../FreeRTOS/src/task.h .././TempHumHandler.h \
+ ../FreeRTOS/src/list.h ../FreeRTOS/src/queue.h \
+ ../drivers/../measuredrivers/header/CO2Handler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- ../FreeRTOS/src/queue.h ../drivers/hih8120.h \
+ ../drivers/mh_z19.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
+ ../drivers/serial.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././CO2Handler.h ../drivers/mh_z19.h ../drivers/serial.h \
- .././SharedDataQueue.h
+ ../drivers/../measuredrivers/header/TempHumHandler.h \
+ ../drivers/hih8120.h
 
-.././TaskHandler.h:
+../data/../data/header/SharedDataQueue.h:
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -75,26 +78,22 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/src/list.h:
 
-../FreeRTOS/src/task.h:
+../FreeRTOS/src/queue.h:
 
-.././TempHumHandler.h:
+../drivers/../measuredrivers/header/CO2Handler.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
-../FreeRTOS/src/queue.h:
-
-../drivers/hih8120.h:
+../drivers/mh_z19.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
-
-.././CO2Handler.h:
-
-../drivers/mh_z19.h:
-
 ../drivers/serial.h:
 
-.././SharedDataQueue.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+../drivers/../measuredrivers/header/TempHumHandler.h:
+
+../drivers/hih8120.h:

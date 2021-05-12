@@ -4,7 +4,7 @@
  * Created: 14-04-2021 15:38:50
  *  Author: Sjunn
  */ 
-#include "SharedDataQueue.h"
+#include "../data/header/SharedDataQueue.h"
 
 QueueHandle_t xQueueShared;
 SharedData_t myDataQueue;

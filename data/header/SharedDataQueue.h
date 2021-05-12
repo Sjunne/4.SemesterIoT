@@ -9,8 +9,8 @@
 #pragma once
 #include <ATMEGA_FreeRTOS.h>
 #include <queue.h>
-#include "CO2Handler.h"
-#include "TempHumHandler.h"
+#include "../measuredrivers/header/CO2Handler.h"
+#include "../measuredrivers/header/TempHumHandler.h"
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -147,10 +147,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CO2Handler.h">
+    <Compile Include="data\header\SharedDataQueue.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CO2HandlerImpl.c">
+    <Compile Include="data\SharedDataQueueImpl.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="drivers\display_7seg.h">
@@ -291,29 +291,33 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="LoRaWANHandler.h">
+    <Compile Include="measuredrivers\CO2HandlerImpl.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SharedDataQueueImpl.c">
+    <Compile Include="measuredrivers\header\CO2Handler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SharedDataQueue.h">
+    <Compile Include="measuredrivers\header\TempHumHandler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TaskHandler.h">
+    <Compile Include="measuredrivers\TempHumHandler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TaskHandlerImpl.c">
+    <Compile Include="networkdrivers\header\LoRaWANHandler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TempHumHandler.c">
+    <Compile Include="networkdrivers\LoRaWANHandlerImpl.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TempHumHandler.h">
+    <Compile Include="tasks\header\TaskHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\TaskHandlerImpl.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="data\header" />
     <Folder Include="drivers\" />
     <Folder Include="drivers\Example\" />
     <Folder Include="FreeRTOS\" />
@@ -321,6 +325,13 @@
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
     <Folder Include="header" />
+    <Folder Include="measuredrivers" />
+    <Folder Include="measuredrivers\header" />
+    <Folder Include="networkdrivers" />
+    <Folder Include="networkdrivers\header" />
+    <Folder Include="data" />
+    <Folder Include="tasks" />
+    <Folder Include="tasks\header" />
   </ItemGroup>
   <ItemGroup>
     <None Include="drivers\.git">
@@ -374,9 +385,6 @@
     <None Include="FreeRTOS\src\LICENSE.md">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="LoRaWANHandlerImpl.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <avr/io.h>
-#include "LoRaWANHandler.h"
+#include "../networkdrivers/header/LoRaWANHandler.h"
 //#include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 
@@ -20,10 +20,10 @@
 #include <string.h>
 #include <mh_z19.h>
 #include <hih8120.h>
-#include "SharedDataQueue.h"
-#include "TaskHandler.h"
-#include "CO2Handler.h"
-#include "TempHumHandler.h"
+#include "../data/header/SharedDataQueue.h"
+#include "../tasks/header/TaskHandler.h"
+#include "../measuredrivers/header/CO2Handler.h"
+#include "../measuredrivers/header/TempHumHandler.h"
 
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);

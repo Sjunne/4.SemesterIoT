@@ -5,7 +5,7 @@
  *  Author: Sjunn
  */ 
 
-#include "CO2Handler.h"
+#include "../measuredrivers/header/CO2Handler.h"
 
 QueueHandle_t xQueueCO2;
 

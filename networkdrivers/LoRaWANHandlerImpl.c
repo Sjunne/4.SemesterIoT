@@ -4,8 +4,8 @@
 * Created: 12/04/2019 10:09:05
 *  Author: IHA
 */
-#include "LoRaWANHandler.h"
-#include "SharedDataQueue.h"
+#include "../networkdrivers/header/LoRaWANHandler.h"
+#include "../data/header/SharedDataQueue.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "6818B76654F89545"

@@ -33,18 +33,26 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
+../data/header \
 ../drivers/ \
 ../drivers/Example/ \
 ../FreeRTOS/ \
 ../FreeRTOS/Example/ \
 ../FreeRTOS/FreeRTOSTraceDriver/ \
 ../FreeRTOS/src/ \
-../header
+../header \
+../measuredrivers \
+../measuredrivers/header \
+../networkdrivers \
+../networkdrivers/header \
+../data \
+../tasks \
+../tasks/header
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../CO2HandlerImpl.c \
+../data/SharedDataQueueImpl.c \
 ../FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.c \
 ../FreeRTOS/src/croutine.c \
 ../FreeRTOS/src/event_groups.c \
@@ -56,10 +64,10 @@ C_SRCS +=  \
 ../FreeRTOS/src/tasks.c \
 ../FreeRTOS/src/timers.c \
 ../FreeRTOS/src/variantHooks.c \
-../SharedDataQueueImpl.c \
-../TaskHandlerImpl.c \
-../TempHumHandler.c \
-../LoRaWANHandlerImpl.c \
+../measuredrivers/CO2HandlerImpl.c \
+../measuredrivers/TempHumHandler.c \
+../networkdrivers/LoRaWANHandlerImpl.c \
+../tasks/TaskHandlerImpl.c \
 ../main.c
 
 
@@ -70,7 +78,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-CO2HandlerImpl.o \
+data/SharedDataQueueImpl.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
 FreeRTOS/src/croutine.o \
 FreeRTOS/src/event_groups.o \
@@ -82,14 +90,14 @@ FreeRTOS/src/stream_buffer.o \
 FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
-SharedDataQueueImpl.o \
-TaskHandlerImpl.o \
-TempHumHandler.o \
-LoRaWANHandlerImpl.o \
+measuredrivers/CO2HandlerImpl.o \
+measuredrivers/TempHumHandler.o \
+networkdrivers/LoRaWANHandlerImpl.o \
+tasks/TaskHandlerImpl.o \
 main.o
 
 OBJS_AS_ARGS +=  \
-CO2HandlerImpl.o \
+data/SharedDataQueueImpl.o \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.o \
 FreeRTOS/src/croutine.o \
 FreeRTOS/src/event_groups.o \
@@ -101,14 +109,14 @@ FreeRTOS/src/stream_buffer.o \
 FreeRTOS/src/tasks.o \
 FreeRTOS/src/timers.o \
 FreeRTOS/src/variantHooks.o \
-SharedDataQueueImpl.o \
-TaskHandlerImpl.o \
-TempHumHandler.o \
-LoRaWANHandlerImpl.o \
+measuredrivers/CO2HandlerImpl.o \
+measuredrivers/TempHumHandler.o \
+networkdrivers/LoRaWANHandlerImpl.o \
+tasks/TaskHandlerImpl.o \
 main.o
 
 C_DEPS +=  \
-CO2HandlerImpl.d \
+data/SharedDataQueueImpl.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
 FreeRTOS/src/croutine.d \
 FreeRTOS/src/event_groups.d \
@@ -120,14 +128,14 @@ FreeRTOS/src/stream_buffer.d \
 FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
-SharedDataQueueImpl.d \
-TaskHandlerImpl.d \
-TempHumHandler.d \
-LoRaWANHandlerImpl.d \
+measuredrivers/CO2HandlerImpl.d \
+measuredrivers/TempHumHandler.d \
+networkdrivers/LoRaWANHandlerImpl.d \
+tasks/TaskHandlerImpl.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
-CO2HandlerImpl.d \
+data/SharedDataQueueImpl.d \
 FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.d \
 FreeRTOS/src/croutine.d \
 FreeRTOS/src/event_groups.d \
@@ -139,10 +147,10 @@ FreeRTOS/src/stream_buffer.d \
 FreeRTOS/src/tasks.d \
 FreeRTOS/src/timers.d \
 FreeRTOS/src/variantHooks.d \
-SharedDataQueueImpl.d \
-TaskHandlerImpl.d \
-TempHumHandler.d \
-LoRaWANHandlerImpl.d \
+measuredrivers/CO2HandlerImpl.d \
+measuredrivers/TempHumHandler.d \
+networkdrivers/LoRaWANHandlerImpl.d \
+tasks/TaskHandlerImpl.d \
 main.d
 
 OUTPUT_FILE_PATH +=4.Semester2.elf
@@ -159,7 +167,7 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./CO2HandlerImpl.o: .././CO2HandlerImpl.c
+data/SharedDataQueueImpl.o: ../data/SharedDataQueueImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -243,28 +251,28 @@ FreeRTOS/src/variantHooks.o: ../FreeRTOS/src/variantHooks.c
 	@echo Finished building: $<
 	
 
-./SharedDataQueueImpl.o: .././SharedDataQueueImpl.c
+measuredrivers/CO2HandlerImpl.o: ../measuredrivers/CO2HandlerImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-./TaskHandlerImpl.o: .././TaskHandlerImpl.c
+measuredrivers/TempHumHandler.o: ../measuredrivers/TempHumHandler.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-./TempHumHandler.o: .././TempHumHandler.c
+networkdrivers/LoRaWANHandlerImpl.o: ../networkdrivers/LoRaWANHandlerImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
-./LoRaWANHandlerImpl.o: .././LoRaWANHandlerImpl.c
+tasks/TaskHandlerImpl.o: ../tasks/TaskHandlerImpl.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000L  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include" -I"../drivers" -I"../FreeRTOS/src"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

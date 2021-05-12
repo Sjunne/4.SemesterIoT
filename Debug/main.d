@@ -13,10 +13,11 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- .././LoRaWANHandler.h ../FreeRTOS/src/ATMEGA_FreeRTOS.h \
- ../FreeRTOS/src/FreeRTOSConfig.h ../FreeRTOS/src/projdefs.h \
- ../FreeRTOS/src/portable.h ../FreeRTOS/src/portmacro.h \
- ../FreeRTOS/src/mpu_wrappers.h ../FreeRTOS/src/FreeRTOSVariant.h \
+ ../drivers/../networkdrivers/header/LoRaWANHandler.h \
+ ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/FreeRTOSConfig.h \
+ ../FreeRTOS/src/projdefs.h ../FreeRTOS/src/portable.h \
+ ../FreeRTOS/src/portmacro.h ../FreeRTOS/src/mpu_wrappers.h \
+ ../FreeRTOS/src/FreeRTOSVariant.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\wdt.h \
  ../FreeRTOS/src/ATMEGA_FreeRTOS.h ../FreeRTOS/src/task.h \
  ../FreeRTOS/src/list.h ../drivers/lora_driver.h \
@@ -24,10 +25,12 @@ main.d main.o: .././main.c \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
  ../drivers/serial.h ../drivers/status_leds.h ../FreeRTOS/src/task.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- ../drivers/mh_z19.h ../drivers/hih8120.h .././SharedDataQueue.h \
- ../FreeRTOS/src/queue.h .././CO2Handler.h \
+ ../drivers/mh_z19.h ../drivers/hih8120.h \
+ ../drivers/../data/header/SharedDataQueue.h ../FreeRTOS/src/queue.h \
+ ../drivers/../measuredrivers/header/CO2Handler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././TempHumHandler.h .././TaskHandler.h
+ ../drivers/../measuredrivers/header/TempHumHandler.h \
+ ../drivers/../tasks/header/TaskHandler.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -57,7 +60,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-.././LoRaWANHandler.h:
+../drivers/../networkdrivers/header/LoRaWANHandler.h:
 
 ../FreeRTOS/src/ATMEGA_FreeRTOS.h:
 
@@ -101,14 +104,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../drivers/hih8120.h:
 
-.././SharedDataQueue.h:
+../drivers/../data/header/SharedDataQueue.h:
 
 ../FreeRTOS/src/queue.h:
 
-.././CO2Handler.h:
+../drivers/../measuredrivers/header/CO2Handler.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
-.././TempHumHandler.h:
+../drivers/../measuredrivers/header/TempHumHandler.h:
 
-.././TaskHandler.h:
+../drivers/../tasks/header/TaskHandler.h:
