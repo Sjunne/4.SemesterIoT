@@ -7,8 +7,8 @@
 #include "LoRaWANHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "6818B76654F89545"
-#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
+#define LORA_appEUI "BD80B543CA612714"
+#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
 
 static char _out_buf[100];
 

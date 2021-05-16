@@ -1825,7 +1825,7 @@ END GROUP
  .debug_frame   0x00002238       0xec ../drivers\libIoTlibrary.a(status_leds.o)
  .debug_frame   0x00002324       0x24 ../drivers\libIoTlibrary.a(fifo.o)
 
-.debug_str      0x00000000     0x39cd
+.debug_str      0x00000000     0x3a15
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_str     0x000003e6      0x22f CO2HandlerImpl.o
@@ -1852,23 +1852,23 @@ END GROUP
                                 0x37d (size before relaxing)
  .debug_str     0x00002665       0xa1 TaskHandlerImpl.o
                                 0x34b (size before relaxing)
- .debug_str     0x00002706      0x46a LoRaWANHandlerImpl.o
-                                0x6b7 (size before relaxing)
- .debug_str     0x00002b70       0x9f main.o
+ .debug_str     0x00002706      0x4b2 LoRaWANHandlerImpl.o
+                                0x69e (size before relaxing)
+ .debug_str     0x00002bb8       0x9f main.o
                                 0x292 (size before relaxing)
- .debug_str     0x00002c0f      0x7a3 ../drivers\libIoTlibrary.a(lora_driver.o)
+ .debug_str     0x00002c57      0x7a3 ../drivers\libIoTlibrary.a(lora_driver.o)
                                 0xcdb (size before relaxing)
- .debug_str     0x000033b2       0x4f ../drivers\libIoTlibrary.a(lora_driver_utils.o)
+ .debug_str     0x000033fa       0x4f ../drivers\libIoTlibrary.a(lora_driver_utils.o)
                                 0x206 (size before relaxing)
- .debug_str     0x00003401      0x112 ../drivers\libIoTlibrary.a(mh_z19.o)
+ .debug_str     0x00003449      0x112 ../drivers\libIoTlibrary.a(mh_z19.o)
                                 0x489 (size before relaxing)
- .debug_str     0x00003513      0x2ee ../drivers\libIoTlibrary.a(serial.o)
+ .debug_str     0x0000355b      0x2ee ../drivers\libIoTlibrary.a(serial.o)
                                 0x62f (size before relaxing)
- .debug_str     0x00003801       0xa6 ../drivers\libIoTlibrary.a(stdio_driver.o)
+ .debug_str     0x00003849       0xa6 ../drivers\libIoTlibrary.a(stdio_driver.o)
                                 0x37d (size before relaxing)
- .debug_str     0x000038a7      0x104 ../drivers\libIoTlibrary.a(status_leds.o)
+ .debug_str     0x000038ef      0x104 ../drivers\libIoTlibrary.a(status_leds.o)
                                 0x36d (size before relaxing)
- .debug_str     0x000039ab       0x22 ../drivers\libIoTlibrary.a(fifo.o)
+ .debug_str     0x000039f3       0x22 ../drivers\libIoTlibrary.a(fifo.o)
                                 0x239 (size before relaxing)
 
 .debug_loc      0x00000000     0xb1b5

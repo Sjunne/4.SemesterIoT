@@ -11,8 +11,7 @@
 void co2MeasureCallBack(uint16_t ppm)
 {
 	// Here we enqueue
-	enqueueCO2Measure(ppm);
-	
+	enqueueCO2Measure(ppm);	
 }
 
 void co2Measure() {
