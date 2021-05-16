@@ -9,13 +9,8 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include "../networkdrivers/header/LoRaWANHandler.h"
-//#include <ATMEGA_FreeRTOS.h>
 #include <task.h>
 
-//#include <lora_driver.h>
-//#include <status_leds.h>
-
-//#include <stdio_driver.h>
 #include <serial.h>
 #include <string.h>
 #include <mh_z19.h>
@@ -68,7 +63,6 @@ int main(void)
 	printf("Program Started!!\n");
 	startTasks();
 
-	/* Replace with your application code */
 	while (1)
 	{
 	}

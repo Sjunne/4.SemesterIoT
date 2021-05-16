@@ -14,8 +14,8 @@ QueueHandle_t xQueueHum;
 
 void initializeTempHumQueues()
 {
-	xQueueTemp = xQueueCreate(5, sizeof(int16_t));
-	xQueueHum = xQueueCreate(5, sizeof(uint16_t));
+	xQueueTemp = xQueueCreate(10, sizeof(int16_t));
+	xQueueHum = xQueueCreate(10, sizeof(uint16_t));
 }
 
 void enqueueTemperature(int16_t temp){
@@ -48,6 +48,13 @@ void tempHumMeasure()
 	
 	uint16_t humidity = hih8120_getHumidity();
 	int16_t temp = hih8120_getTemperature();
+	
+	if (humidity > 95 && temp > 100) {
+		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+			
+		humidity = hih8120_getHumidity();
+		temp = hih8120_getTemperature();
+	}
 	
 	enqueueHumidity(humidity);
 	enqueueTemperature(temp);

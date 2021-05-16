@@ -7,10 +7,9 @@
 #include "../data/header/SharedDataQueue.h"
 
 QueueHandle_t xQueueShared;
-SharedData_t myDataQueue;
+
 SharedData receiveSharedData;
-BaseType_t xStatus;
-SharedData enqueueSharedData2;
+SharedData sharedData;
 
 void initializeSharedDataQueue()
 {
@@ -19,24 +18,31 @@ void initializeSharedDataQueue()
 
 void enqueueSharedData()
 {
+	/*int counter = 0;
+	uint16_t co2;
+	float divider = 10;
+	float res = 0.0;
+	while (counter < 10) {
+		co2 += dequeueCO2Measure();
+		counter++;
+	}
+	res = (co2 / divider);
+	printf("c02 som float %.2f \n", res);
+	co2 = (uint16_t) res;
+	*/
+	
 	uint16_t co2 = dequeueCO2Measure();
 	int16_t temp = dequeueTempMeasure();
 	uint16_t hum = dequeueHumidityMeasure();
 
-	SharedData_t shared = &enqueueSharedData2;
+	SharedData_t shared = &sharedData;
 	shared->co2 = co2;
 	shared->temperature = temp;
 	shared->humidity = hum;
-		
-	TickType_t xLastWakeTime2;
-	const TickType_t xFrequency2 = 5/portTICK_PERIOD_MS;
-	xLastWakeTime2 = xTaskGetTickCount();
 
-
-	xTaskDelayUntil( &xLastWakeTime2, xFrequency2 );
 	printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
 
-	xQueueSend(xQueueShared, (void*)&enqueueSharedData2, portMAX_DELAY);
+	xQueueSend(xQueueShared, (void*)&sharedData, portMAX_DELAY);
 
 }
 
