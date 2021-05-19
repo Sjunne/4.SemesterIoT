@@ -18,7 +18,6 @@ typedef struct SharedData {
 	uint16_t co2;
 	int16_t temperature;
 	uint16_t humidity;
-	//uint16_t timestamp;
 } SharedData;
 
 typedef struct SharedData* SharedData_t;

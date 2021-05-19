@@ -18,22 +18,25 @@ void initializeSharedDataQueue()
 
 void enqueueSharedData()
 {
-	/*int counter = 0;
-	uint16_t co2;
-	float divider = 10;
-	float res = 0.0;
+	//uint16_t co2 = dequeueCO2Measure();
+	int16_t temp = dequeueTempMeasure();
+	uint16_t hum = dequeueHumidityMeasure();
+	
+	int counter = 0;
+	uint16_t co2 = 0;
+	int divider = 10;
+	int res = 0;
 	while (counter < 10) {
 		co2 += dequeueCO2Measure();
+		printf("CO2: %d \n", co2);
 		counter++;
 	}
 	res = (co2 / divider);
-	printf("c02 som float %.2f \n", res);
+	printf("c02 som float %d: \n", res);
 	co2 = (uint16_t) res;
-	*/
 	
-	uint16_t co2 = dequeueCO2Measure();
-	int16_t temp = dequeueTempMeasure();
-	uint16_t hum = dequeueHumidityMeasure();
+	
+
 
 	SharedData_t shared = &sharedData;
 	shared->co2 = co2;

@@ -11,6 +11,9 @@
 #define LORA_appEUI "6818B76654F89545"
 #define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
+//Larses kode
+//#define LORA_appEUI "BD80B543CA612714"
+//#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
 
 void lora_handler_task( void *pvParameters );
 
@@ -122,13 +125,13 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(150000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(400000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 
 
 	for(;;)
 	{
-		uint16_t growbroId = 111;
+		uint16_t growbroId = 1;
 		
 		printf("\t going into delay \n");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );

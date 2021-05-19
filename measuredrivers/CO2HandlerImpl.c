@@ -15,6 +15,7 @@ void initializeCO2Queue() {
 
 
 void enqueueCO2Measure(uint16_t ppm){
+	printf("In the enqueue %d \n",ppm);
 	xQueueSend(xQueueCO2, (void*)&ppm, portMAX_DELAY);
 }
 
