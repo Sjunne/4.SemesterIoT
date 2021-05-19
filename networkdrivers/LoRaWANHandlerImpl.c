@@ -6,13 +6,18 @@
 */
 #include "../networkdrivers/header/LoRaWANHandler.h"
 #include "../data/header/SharedDataQueue.h"
+#include "rc_servo.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "6818B76654F89545"
 #define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
+//Lars' kode
+//#define LORA_appEUI "BD80B543CA612714"
+//#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
 
 void lora_handler_task( void *pvParameters );
+void task_download( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
@@ -21,6 +26,13 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 	xTaskCreate(
 	lora_handler_task
 	,  "LRHand"  // A name just for humans
+	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  NULL
+	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  NULL );
+		xTaskCreate(
+	task_download
+	,  "LRHanddown"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
 	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
@@ -122,14 +134,21 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(150000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
-
+	uint16_t recieve;
 
 	for(;;)
 	{
-		uint16_t growbroId = 111;
-		
+		uint16_t growbroId = 1;
+			
+			// JUST FOR SERVO
+			rc_servo_initialise();
+			uint8_t servoNo = 1;
+			int8_t percent = 100;
+			rc_servo_setPosition(servoNo, percent);
+			
+			
 		printf("\t going into delay \n");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
@@ -153,5 +172,51 @@ void lora_handler_task( void *pvParameters )
 		
 		// SENDING PAYLOAD
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		
+		lora_driver_payload_t downlinkPayload;
+		
+		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+
+		
+		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+		{
+		
+		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+		printf("recieved: %d \n", recieve);
+		}
+	}
+
+}
+
+void task_download( void *pvParameters )
+{
+
+	// Hardware reset of LoRaWAN transceiver
+	lora_driver_resetRn2483(1);
+	vTaskDelay(2);
+	lora_driver_resetRn2483(0);
+	// Give it a chance to wakeup
+	vTaskDelay(150);
+
+	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+	
+	uint16_t recieve;
+	for(;;)
+	{	
+		lora_driver_payload_t downlinkPayload;
+		
+		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+
+		
+		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+		{
+			
+		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+		}
+
 	}
 }
+
