@@ -14,6 +14,9 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
+MessageBufferHandle_t downlinkMessageBufferHandle;
+
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
 void lora_handler_task( void *pvParameters );
+void task_download( void *pvParameters );

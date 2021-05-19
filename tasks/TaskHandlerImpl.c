@@ -31,13 +31,14 @@ void setupTasks(void) // Can only setup 2 tasks, memory problems?
 	,  NULL
 	,  0  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );	
+	
 }
 
 
 void takeMeasure(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 5000/portTICK_PERIOD_MS; // 60 s
+	const TickType_t xFrequency = 24000/portTICK_PERIOD_MS; // 60 s
 
 	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -53,7 +54,7 @@ void takeMeasure(void *pvParameters)
 void enqueueMeasures(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 55000/portTICK_PERIOD_MS; // 65 s
+	const TickType_t xFrequency = 240000/portTICK_PERIOD_MS; // 65 s
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -70,6 +71,8 @@ void enqueueMeasures(void *pvParameters)
 void startTasks()
 {
 	setupTasks();
+	
+	printf("heapsize: %d \n", xPortGetFreeHeapSize());
 	vTaskStartScheduler(); // Initialize and run the freeRTOS scheduler. Execution should never return from here.
 }
 
