@@ -1184,14 +1184,14 @@ END GROUP
  .text.dequeueHumidityMeasure
                 0x0000320a       0x34 measuredrivers/TempHumHandler.o
                 0x0000320a                dequeueHumidityMeasure
- .text.task_download
-                0x0000323e       0x78 networkdrivers/LoRaWANHandlerImpl.o
-                0x0000323e                task_download
  .text._lora_setup
-                0x000032b6      0x190 networkdrivers/LoRaWANHandlerImpl.o
+                0x0000323e      0x190 networkdrivers/LoRaWANHandlerImpl.o
  .text.lora_handler_task
-                0x00003446      0x172 networkdrivers/LoRaWANHandlerImpl.o
-                0x00003446                lora_handler_task
+                0x000033ce      0x16a networkdrivers/LoRaWANHandlerImpl.o
+                0x000033ce                lora_handler_task
+ .text.task_download
+                0x00003538       0x80 networkdrivers/LoRaWANHandlerImpl.o
+                0x00003538                task_download
  .text.lora_handler_initialise
                 0x000035b8       0x40 networkdrivers/LoRaWANHandlerImpl.o
                 0x000035b8                lora_handler_initialise
@@ -1904,7 +1904,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0xd27e
+.debug_info     0x00000000     0xd27a
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_info    0x00000bbc      0x32f data/SharedDataQueueImpl.o
@@ -1918,19 +1918,19 @@ END GROUP
  .debug_info    0x00007892      0x20f FreeRTOS/src/variantHooks.o
  .debug_info    0x00007aa1      0x29e measuredrivers/CO2HandlerImpl.o
  .debug_info    0x00007d3f      0x4a8 measuredrivers/TempHumHandler.o
- .debug_info    0x000081e7      0xa72 networkdrivers/LoRaWANHandlerImpl.o
- .debug_info    0x00008c59      0x30d tasks/TaskHandlerImpl.o
- .debug_info    0x00008f66      0x2c3 main.o
- .debug_info    0x00009229      0x3a9 ../drivers\libIoTlibrary.a(hih8120.o)
- .debug_info    0x000095d2     0x1747 ../drivers\libIoTlibrary.a(lora_driver.o)
- .debug_info    0x0000ad19      0x143 ../drivers\libIoTlibrary.a(lora_driver_utils.o)
- .debug_info    0x0000ae5c      0x556 ../drivers\libIoTlibrary.a(mh_z19.o)
- .debug_info    0x0000b3b2      0x10f ../drivers\libIoTlibrary.a(rc_servo.o)
- .debug_info    0x0000b4c1      0xddb ../drivers\libIoTlibrary.a(serial.o)
- .debug_info    0x0000c29c      0x3b6 ../drivers\libIoTlibrary.a(stdio_driver.o)
- .debug_info    0x0000c652      0x50c ../drivers\libIoTlibrary.a(status_leds.o)
- .debug_info    0x0000cb5e      0x55d ../drivers\libIoTlibrary.a(twi.o)
- .debug_info    0x0000d0bb      0x1c3 ../drivers\libIoTlibrary.a(fifo.o)
+ .debug_info    0x000081e7      0xa6e networkdrivers/LoRaWANHandlerImpl.o
+ .debug_info    0x00008c55      0x30d tasks/TaskHandlerImpl.o
+ .debug_info    0x00008f62      0x2c3 main.o
+ .debug_info    0x00009225      0x3a9 ../drivers\libIoTlibrary.a(hih8120.o)
+ .debug_info    0x000095ce     0x1747 ../drivers\libIoTlibrary.a(lora_driver.o)
+ .debug_info    0x0000ad15      0x143 ../drivers\libIoTlibrary.a(lora_driver_utils.o)
+ .debug_info    0x0000ae58      0x556 ../drivers\libIoTlibrary.a(mh_z19.o)
+ .debug_info    0x0000b3ae      0x10f ../drivers\libIoTlibrary.a(rc_servo.o)
+ .debug_info    0x0000b4bd      0xddb ../drivers\libIoTlibrary.a(serial.o)
+ .debug_info    0x0000c298      0x3b6 ../drivers\libIoTlibrary.a(stdio_driver.o)
+ .debug_info    0x0000c64e      0x50c ../drivers\libIoTlibrary.a(status_leds.o)
+ .debug_info    0x0000cb5a      0x55d ../drivers\libIoTlibrary.a(twi.o)
+ .debug_info    0x0000d0b7      0x1c3 ../drivers\libIoTlibrary.a(fifo.o)
 
 .debug_abbrev   0x00000000     0x34f7
  *(.debug_abbrev)

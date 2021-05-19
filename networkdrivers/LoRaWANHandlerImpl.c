@@ -141,13 +141,7 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		uint16_t growbroId = 1;
-			
-			// JUST FOR SERVO
-			rc_servo_initialise();
-			uint8_t servoNo = 1;
-			int8_t percent = 100;
-			rc_servo_setPosition(servoNo, percent);
-			
+					
 			
 		printf("\t going into delay \n");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
@@ -201,6 +195,13 @@ void task_download( void *pvParameters )
 	vTaskDelay(150);
 
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+	
+	//// JUST FOR SERVO
+	//rc_servo_initialise();
+	//uint8_t servoNo = 1;
+	//int8_t percent = 100;
+	//rc_servo_setPosition(servoNo, percent);
+	
 	
 	uint16_t recieve;
 	for(;;)

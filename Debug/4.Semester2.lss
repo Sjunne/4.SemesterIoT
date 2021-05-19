@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000ab0  00000000  00000000  00006698  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000d27e  00000000  00000000  00007148  2**0
+  6 .debug_info   0000d27a  00000000  00000000  00007148  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000034f7  00000000  00000000  000143c6  2**0
+  7 .debug_abbrev 000034f7  00000000  00000000  000143c2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00006a36  00000000  00000000  000178bd  2**0
+  8 .debug_line   00006a36  00000000  00000000  000178b9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000025c8  00000000  00000000  0001e2f4  2**2
+  9 .debug_frame  000025c8  00000000  00000000  0001e2f0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00004023  00000000  00000000  000208bc  2**0
+ 10 .debug_str    00004023  00000000  00000000  000208b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000b8f3  00000000  00000000  000248df  2**0
+ 11 .debug_loc    0000b8f3  00000000  00000000  000248db  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000009e8  00000000  00000000  000301d2  2**0
+ 12 .debug_ranges 000009e8  00000000  00000000  000301ce  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -7413,607 +7413,606 @@ uint16_t dequeueHumidityMeasure(){
     323a:	cf 91       	pop	r28
     323c:	08 95       	ret
 
-0000323e <task_download>:
-	}
-
-}
-
-void task_download( void *pvParameters )
-{
-    323e:	cf 93       	push	r28
-    3240:	df 93       	push	r29
-    3242:	cd b7       	in	r28, 0x3d	; 61
-    3244:	de b7       	in	r29, 0x3e	; 62
-    3246:	66 97       	sbiw	r28, 0x16	; 22
-    3248:	0f b6       	in	r0, 0x3f	; 63
-    324a:	f8 94       	cli
-    324c:	de bf       	out	0x3e, r29	; 62
-    324e:	0f be       	out	0x3f, r0	; 63
-    3250:	cd bf       	out	0x3d, r28	; 61
-
-	// Hardware reset of LoRaWAN transceiver
-	lora_driver_resetRn2483(1);
-    3252:	81 e0       	ldi	r24, 0x01	; 1
-    3254:	b0 d4       	rcall	.+2400   	; 0x3bb6 <lora_driver_resetRn2483>
-	vTaskDelay(2);
-    3256:	62 e0       	ldi	r22, 0x02	; 2
-    3258:	70 e0       	ldi	r23, 0x00	; 0
-    325a:	80 e0       	ldi	r24, 0x00	; 0
-    325c:	90 e0       	ldi	r25, 0x00	; 0
-    325e:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
-	lora_driver_resetRn2483(0);
-    3262:	80 e0       	ldi	r24, 0x00	; 0
-    3264:	a8 d4       	rcall	.+2384   	; 0x3bb6 <lora_driver_resetRn2483>
-	// Give it a chance to wakeup
-	vTaskDelay(150);
-    3266:	66 e9       	ldi	r22, 0x96	; 150
-    3268:	70 e0       	ldi	r23, 0x00	; 0
-    326a:	80 e0       	ldi	r24, 0x00	; 0
-    326c:	90 e0       	ldi	r25, 0x00	; 0
-    326e:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
-
-	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-    3272:	5a d4       	rcall	.+2228   	; 0x3b28 <lora_driver_flushBuffers>
-	uint16_t recieve;
-	for(;;)
-	{	
-		lora_driver_payload_t downlinkPayload;
-		
-		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-    3274:	0f ef       	ldi	r16, 0xFF	; 255
-    3276:	1f ef       	ldi	r17, 0xFF	; 255
-    3278:	98 01       	movw	r18, r16
-    327a:	46 e1       	ldi	r20, 0x16	; 22
-    327c:	50 e0       	ldi	r21, 0x00	; 0
-    327e:	be 01       	movw	r22, r28
-    3280:	6f 5f       	subi	r22, 0xFF	; 255
-    3282:	7f 4f       	sbci	r23, 0xFF	; 255
-    3284:	80 91 f7 17 	lds	r24, 0x17F7	; 0x8017f7 <downlinkMessageBufferHandle>
-    3288:	90 91 f8 17 	lds	r25, 0x17F8	; 0x8017f8 <downlinkMessageBufferHandle+0x1>
-    328c:	0e 94 d7 09 	call	0x13ae	; 0x13ae <xStreamBufferReceive>
-		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
-    3290:	9a 81       	ldd	r25, Y+2	; 0x02
-    3292:	89 81       	ldd	r24, Y+1	; 0x01
-    3294:	1f 92       	push	r1
-    3296:	9f 93       	push	r25
-    3298:	1f 92       	push	r1
-    329a:	8f 93       	push	r24
-    329c:	85 ed       	ldi	r24, 0xD5	; 213
-    329e:	92 e0       	ldi	r25, 0x02	; 2
-    32a0:	9f 93       	push	r25
-    32a2:	8f 93       	push	r24
-    32a4:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    32a8:	0f 90       	pop	r0
-    32aa:	0f 90       	pop	r0
-    32ac:	0f 90       	pop	r0
-    32ae:	0f 90       	pop	r0
-    32b0:	0f 90       	pop	r0
-    32b2:	0f 90       	pop	r0
-    32b4:	df cf       	rjmp	.-66     	; 0x3274 <task_download+0x36>
-
-000032b6 <_lora_setup>:
+0000323e <_lora_setup>:
 	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 }
 
 static void _lora_setup(void)
 {
-    32b6:	0f 93       	push	r16
-    32b8:	1f 93       	push	r17
-    32ba:	cf 93       	push	r28
-    32bc:	df 93       	push	r29
-    32be:	cd b7       	in	r28, 0x3d	; 61
-    32c0:	de b7       	in	r29, 0x3e	; 62
-    32c2:	64 97       	sbiw	r28, 0x14	; 20
-    32c4:	0f b6       	in	r0, 0x3f	; 63
-    32c6:	f8 94       	cli
-    32c8:	de bf       	out	0x3e, r29	; 62
-    32ca:	0f be       	out	0x3f, r0	; 63
-    32cc:	cd bf       	out	0x3d, r28	; 61
+    323e:	0f 93       	push	r16
+    3240:	1f 93       	push	r17
+    3242:	cf 93       	push	r28
+    3244:	df 93       	push	r29
+    3246:	cd b7       	in	r28, 0x3d	; 61
+    3248:	de b7       	in	r29, 0x3e	; 62
+    324a:	64 97       	sbiw	r28, 0x14	; 20
+    324c:	0f b6       	in	r0, 0x3f	; 63
+    324e:	f8 94       	cli
+    3250:	de bf       	out	0x3e, r29	; 62
+    3252:	0f be       	out	0x3f, r0	; 63
+    3254:	cd bf       	out	0x3d, r28	; 61
 
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
-    32ce:	81 e0       	ldi	r24, 0x01	; 1
-    32d0:	0e 94 dc 26 	call	0x4db8	; 0x4db8 <status_leds_slowBlink>
+    3256:	81 e0       	ldi	r24, 0x01	; 1
+    3258:	0e 94 dc 26 	call	0x4db8	; 0x4db8 <status_leds_slowBlink>
 
 	// Factory reset the transceiver
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
-    32d4:	7e d4       	rcall	.+2300   	; 0x3bd2 <lora_driver_rn2483FactoryReset>
-    32d6:	fa d6       	rcall	.+3572   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    32d8:	9f 93       	push	r25
-    32da:	8f 93       	push	r24
-    32dc:	86 e0       	ldi	r24, 0x06	; 6
-    32de:	93 e0       	ldi	r25, 0x03	; 3
-    32e0:	9f 93       	push	r25
-    32e2:	8f 93       	push	r24
-    32e4:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    325c:	ba d4       	rcall	.+2420   	; 0x3bd2 <lora_driver_rn2483FactoryReset>
+    325e:	36 d7       	rcall	.+3692   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    3260:	9f 93       	push	r25
+    3262:	8f 93       	push	r24
+    3264:	85 ed       	ldi	r24, 0xD5	; 213
+    3266:	92 e0       	ldi	r25, 0x02	; 2
+    3268:	9f 93       	push	r25
+    326a:	8f 93       	push	r24
+    326c:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 	
 	// Configure to EU868 LoRaWAN standards
 	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
-    32e8:	f2 d5       	rcall	.+3044   	; 0x3ece <lora_driver_configureToEu868>
-    32ea:	f0 d6       	rcall	.+3552   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    32ec:	9f 93       	push	r25
-    32ee:	8f 93       	push	r24
-    32f0:	89 e1       	ldi	r24, 0x19	; 25
-    32f2:	93 e0       	ldi	r25, 0x03	; 3
-    32f4:	9f 93       	push	r25
-    32f6:	8f 93       	push	r24
-    32f8:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    32fc:	8e 01       	movw	r16, r28
-    32fe:	0f 5f       	subi	r16, 0xFF	; 255
+    3270:	2e d6       	rcall	.+3164   	; 0x3ece <lora_driver_configureToEu868>
+    3272:	2c d7       	rcall	.+3672   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    3274:	9f 93       	push	r25
+    3276:	8f 93       	push	r24
+    3278:	88 ee       	ldi	r24, 0xE8	; 232
+    327a:	92 e0       	ldi	r25, 0x02	; 2
+    327c:	9f 93       	push	r25
+    327e:	8f 93       	push	r24
+    3280:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3284:	8e 01       	movw	r16, r28
+    3286:	0f 5f       	subi	r16, 0xFF	; 255
 
 	// Get the transceivers HW EUI
 	rc = lora_driver_getRn2483Hweui(_out_buf);
-    3300:	1f 4f       	sbci	r17, 0xFF	; 255
-    3302:	c8 01       	movw	r24, r16
-    3304:	78 d4       	rcall	.+2288   	; 0x3bf6 <lora_driver_getRn2483Hweui>
-    3306:	e2 d6       	rcall	.+3524   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    3288:	1f 4f       	sbci	r17, 0xFF	; 255
+    328a:	c8 01       	movw	r24, r16
+    328c:	b4 d4       	rcall	.+2408   	; 0x3bf6 <lora_driver_getRn2483Hweui>
+    328e:	1e d7       	rcall	.+3644   	; 0x40cc <lora_driver_mapReturnCodeToText>
 	printf("Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
-    3308:	1f 93       	push	r17
-    330a:	0f 93       	push	r16
-    330c:	9f 93       	push	r25
-    330e:	8f 93       	push	r24
-    3310:	82 e3       	ldi	r24, 0x32	; 50
-    3312:	93 e0       	ldi	r25, 0x03	; 3
-    3314:	9f 93       	push	r25
-    3316:	8f 93       	push	r24
-    3318:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3290:	1f 93       	push	r17
+    3292:	0f 93       	push	r16
+    3294:	9f 93       	push	r25
+    3296:	8f 93       	push	r24
+    3298:	81 e0       	ldi	r24, 0x01	; 1
+    329a:	93 e0       	ldi	r25, 0x03	; 3
+    329c:	9f 93       	push	r25
+    329e:	8f 93       	push	r24
+    32a0:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 
 	// Set the HWEUI as DevEUI in the LoRaWAN software stack in the transceiver
 	printf("Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
-    331c:	c8 01       	movw	r24, r16
-    331e:	87 d4       	rcall	.+2318   	; 0x3c2e <lora_driver_setDeviceIdentifier>
-    3320:	d5 d6       	rcall	.+3498   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    3322:	9f 93       	push	r25
-    3324:	8f 93       	push	r24
-    3326:	1f 93       	push	r17
-    3328:	0f 93       	push	r16
-    332a:	86 e4       	ldi	r24, 0x46	; 70
-    332c:	93 e0       	ldi	r25, 0x03	; 3
-    332e:	9f 93       	push	r25
-    3330:	8f 93       	push	r24
-    3332:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    32a4:	c8 01       	movw	r24, r16
+    32a6:	c3 d4       	rcall	.+2438   	; 0x3c2e <lora_driver_setDeviceIdentifier>
+    32a8:	11 d7       	rcall	.+3618   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    32aa:	9f 93       	push	r25
+    32ac:	8f 93       	push	r24
+    32ae:	1f 93       	push	r17
+    32b0:	0f 93       	push	r16
+    32b2:	85 e1       	ldi	r24, 0x15	; 21
+    32b4:	93 e0       	ldi	r25, 0x03	; 3
+    32b6:	9f 93       	push	r25
+    32b8:	8f 93       	push	r24
+    32ba:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 
 	// Set Over The Air Activation parameters to be ready to join the LoRaWAN
 	printf("Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
-    3336:	a8 01       	movw	r20, r16
-    3338:	6b e5       	ldi	r22, 0x5B	; 91
-    333a:	73 e0       	ldi	r23, 0x03	; 3
-    333c:	8c e7       	ldi	r24, 0x7C	; 124
-    333e:	93 e0       	ldi	r25, 0x03	; 3
-    3340:	a4 d6       	rcall	.+3400   	; 0x408a <lora_driver_setOtaaIdentity>
-    3342:	c4 d6       	rcall	.+3464   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    3344:	9f 93       	push	r25
-    3346:	8f 93       	push	r24
-    3348:	1f 93       	push	r17
-    334a:	0f 93       	push	r16
-    334c:	8b e5       	ldi	r24, 0x5B	; 91
-    334e:	93 e0       	ldi	r25, 0x03	; 3
-    3350:	9f 93       	push	r25
-    3352:	8f 93       	push	r24
-    3354:	8c e7       	ldi	r24, 0x7C	; 124
-    3356:	93 e0       	ldi	r25, 0x03	; 3
-    3358:	9f 93       	push	r25
-    335a:	8f 93       	push	r24
-    335c:	8d e8       	ldi	r24, 0x8D	; 141
-    335e:	93 e0       	ldi	r25, 0x03	; 3
-    3360:	9f 93       	push	r25
-    3362:	8f 93       	push	r24
-    3364:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    32be:	a8 01       	movw	r20, r16
+    32c0:	6a e2       	ldi	r22, 0x2A	; 42
+    32c2:	73 e0       	ldi	r23, 0x03	; 3
+    32c4:	8b e4       	ldi	r24, 0x4B	; 75
+    32c6:	93 e0       	ldi	r25, 0x03	; 3
+    32c8:	e0 d6       	rcall	.+3520   	; 0x408a <lora_driver_setOtaaIdentity>
+    32ca:	00 d7       	rcall	.+3584   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    32cc:	9f 93       	push	r25
+    32ce:	8f 93       	push	r24
+    32d0:	1f 93       	push	r17
+    32d2:	0f 93       	push	r16
+    32d4:	8a e2       	ldi	r24, 0x2A	; 42
+    32d6:	93 e0       	ldi	r25, 0x03	; 3
+    32d8:	9f 93       	push	r25
+    32da:	8f 93       	push	r24
+    32dc:	8b e4       	ldi	r24, 0x4B	; 75
+    32de:	93 e0       	ldi	r25, 0x03	; 3
+    32e0:	9f 93       	push	r25
+    32e2:	8f 93       	push	r24
+    32e4:	8c e5       	ldi	r24, 0x5C	; 92
+    32e6:	93 e0       	ldi	r25, 0x03	; 3
+    32e8:	9f 93       	push	r25
+    32ea:	8f 93       	push	r24
+    32ec:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 
 	// Save all the MAC settings in the transceiver
 	printf("Save mac >%s<\n",lora_driver_mapReturnCodeToText(lora_driver_saveMac()));
-    3368:	95 d4       	rcall	.+2346   	; 0x3c94 <lora_driver_saveMac>
-    336a:	b0 d6       	rcall	.+3424   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    336c:	9f 93       	push	r25
-    336e:	8f 93       	push	r24
-    3370:	83 ec       	ldi	r24, 0xC3	; 195
-    3372:	93 e0       	ldi	r25, 0x03	; 3
-    3374:	9f 93       	push	r25
-    3376:	8f 93       	push	r24
-    3378:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    32f0:	d1 d4       	rcall	.+2466   	; 0x3c94 <lora_driver_saveMac>
+    32f2:	ec d6       	rcall	.+3544   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    32f4:	9f 93       	push	r25
+    32f6:	8f 93       	push	r24
+    32f8:	82 e9       	ldi	r24, 0x92	; 146
+    32fa:	93 e0       	ldi	r25, 0x03	; 3
+    32fc:	9f 93       	push	r25
+    32fe:	8f 93       	push	r24
+    3300:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 
 	// Enable Adaptive Data Rate
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
-    337c:	0f b6       	in	r0, 0x3f	; 63
-    337e:	f8 94       	cli
-    3380:	de bf       	out	0x3e, r29	; 62
-    3382:	0f be       	out	0x3f, r0	; 63
-    3384:	cd bf       	out	0x3d, r28	; 61
-    3386:	81 e0       	ldi	r24, 0x01	; 1
-    3388:	7f d5       	rcall	.+2814   	; 0x3e88 <lora_driver_setAdaptiveDataRate>
-    338a:	a0 d6       	rcall	.+3392   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    338c:	9f 93       	push	r25
-    338e:	8f 93       	push	r24
-    3390:	82 ed       	ldi	r24, 0xD2	; 210
-    3392:	93 e0       	ldi	r25, 0x03	; 3
-    3394:	9f 93       	push	r25
-    3396:	8f 93       	push	r24
-    3398:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3304:	0f b6       	in	r0, 0x3f	; 63
+    3306:	f8 94       	cli
+    3308:	de bf       	out	0x3e, r29	; 62
+    330a:	0f be       	out	0x3f, r0	; 63
+    330c:	cd bf       	out	0x3d, r28	; 61
+    330e:	81 e0       	ldi	r24, 0x01	; 1
+    3310:	bb d5       	rcall	.+2934   	; 0x3e88 <lora_driver_setAdaptiveDataRate>
+    3312:	dc d6       	rcall	.+3512   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    3314:	9f 93       	push	r25
+    3316:	8f 93       	push	r24
+    3318:	81 ea       	ldi	r24, 0xA1	; 161
+    331a:	93 e0       	ldi	r25, 0x03	; 3
+    331c:	9f 93       	push	r25
+    331e:	8f 93       	push	r24
+    3320:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
 
 	// Set receiver window1 delay to 500 ms - this is needed if down-link messages will be used
 	printf("Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
-    339c:	84 ef       	ldi	r24, 0xF4	; 244
-    339e:	91 e0       	ldi	r25, 0x01	; 1
-    33a0:	7e d5       	rcall	.+2812   	; 0x3e9e <lora_driver_setReceiveDelay>
-    33a2:	94 d6       	rcall	.+3368   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    33a4:	9f 93       	push	r25
-    33a6:	8f 93       	push	r24
-    33a8:	81 e0       	ldi	r24, 0x01	; 1
-    33aa:	8f 93       	push	r24
-    33ac:	84 ef       	ldi	r24, 0xF4	; 244
-    33ae:	8f 93       	push	r24
-    33b0:	83 ef       	ldi	r24, 0xF3	; 243
-    33b2:	93 e0       	ldi	r25, 0x03	; 3
-    33b4:	9f 93       	push	r25
-    33b6:	8f 93       	push	r24
-    33b8:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    33bc:	0f b6       	in	r0, 0x3f	; 63
-    33be:	f8 94       	cli
-    33c0:	de bf       	out	0x3e, r29	; 62
-    33c2:	0f be       	out	0x3f, r0	; 63
-    33c4:	cd bf       	out	0x3d, r28	; 61
+    3324:	84 ef       	ldi	r24, 0xF4	; 244
+    3326:	91 e0       	ldi	r25, 0x01	; 1
+    3328:	ba d5       	rcall	.+2932   	; 0x3e9e <lora_driver_setReceiveDelay>
+    332a:	d0 d6       	rcall	.+3488   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    332c:	9f 93       	push	r25
+    332e:	8f 93       	push	r24
+    3330:	81 e0       	ldi	r24, 0x01	; 1
+    3332:	8f 93       	push	r24
+    3334:	84 ef       	ldi	r24, 0xF4	; 244
+    3336:	8f 93       	push	r24
+    3338:	82 ec       	ldi	r24, 0xC2	; 194
+    333a:	93 e0       	ldi	r25, 0x03	; 3
+    333c:	9f 93       	push	r25
+    333e:	8f 93       	push	r24
+    3340:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3344:	0f b6       	in	r0, 0x3f	; 63
+    3346:	f8 94       	cli
+    3348:	de bf       	out	0x3e, r29	; 62
+    334a:	0f be       	out	0x3f, r0	; 63
+    334c:	cd bf       	out	0x3d, r28	; 61
 
 	// Join the LoRaWAN
 	uint8_t maxJoinTriesLeft = 10;
-    33c6:	1a e0       	ldi	r17, 0x0A	; 10
+    334e:	1a e0       	ldi	r17, 0x0A	; 10
 	
 	do {
 		rc = lora_driver_join(LORA_OTAA);
-    33c8:	80 e0       	ldi	r24, 0x00	; 0
-    33ca:	6a d4       	rcall	.+2260   	; 0x3ca0 <lora_driver_join>
-    33cc:	08 2f       	mov	r16, r24
-    33ce:	7e d6       	rcall	.+3324   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    3350:	80 e0       	ldi	r24, 0x00	; 0
+    3352:	a6 d4       	rcall	.+2380   	; 0x3ca0 <lora_driver_join>
+    3354:	08 2f       	mov	r16, r24
+    3356:	ba d6       	rcall	.+3444   	; 0x40cc <lora_driver_mapReturnCodeToText>
 		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
-    33d0:	9f 93       	push	r25
-    33d2:	8f 93       	push	r24
-    33d4:	1f 92       	push	r1
-    33d6:	1f 93       	push	r17
-    33d8:	83 e1       	ldi	r24, 0x13	; 19
-    33da:	94 e0       	ldi	r25, 0x04	; 4
-    33dc:	9f 93       	push	r25
-    33de:	8f 93       	push	r24
-    33e0:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    33e4:	0f 90       	pop	r0
-    33e6:	0f 90       	pop	r0
+    3358:	9f 93       	push	r25
+    335a:	8f 93       	push	r24
+    335c:	1f 92       	push	r1
+    335e:	1f 93       	push	r17
+    3360:	82 ee       	ldi	r24, 0xE2	; 226
+    3362:	93 e0       	ldi	r25, 0x03	; 3
+    3364:	9f 93       	push	r25
+    3366:	8f 93       	push	r24
+    3368:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    336c:	0f 90       	pop	r0
+    336e:	0f 90       	pop	r0
 
 		if ( rc != LORA_ACCEPTED)
-    33e8:	0f 90       	pop	r0
-    33ea:	0f 90       	pop	r0
-    33ec:	0f 90       	pop	r0
-    33ee:	0f 90       	pop	r0
-    33f0:	08 30       	cpi	r16, 0x08	; 8
-    33f2:	59 f0       	breq	.+22     	; 0x340a <_lora_setup+0x154>
-    33f4:	80 e0       	ldi	r24, 0x00	; 0
-    33f6:	0e 94 40 27 	call	0x4e80	; 0x4e80 <status_leds_longPuls>
+    3370:	0f 90       	pop	r0
+    3372:	0f 90       	pop	r0
+    3374:	0f 90       	pop	r0
+    3376:	0f 90       	pop	r0
+    3378:	08 30       	cpi	r16, 0x08	; 8
+    337a:	59 f0       	breq	.+22     	; 0x3392 <_lora_setup+0x154>
+    337c:	80 e0       	ldi	r24, 0x00	; 0
+    337e:	0e 94 40 27 	call	0x4e80	; 0x4e80 <status_leds_longPuls>
 		{
 			// Make the red led pulse to tell something went wrong
 			status_leds_longPuls(led_ST1); // OPTIONAL
-    33fa:	66 e3       	ldi	r22, 0x36	; 54
-    33fc:	71 e0       	ldi	r23, 0x01	; 1
+    3382:	66 e3       	ldi	r22, 0x36	; 54
+    3384:	71 e0       	ldi	r23, 0x01	; 1
 			// Wait 5 sec and lets try again
 			vTaskDelay(pdMS_TO_TICKS(5000UL));
-    33fe:	80 e0       	ldi	r24, 0x00	; 0
-    3400:	90 e0       	ldi	r25, 0x00	; 0
-    3402:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
-    3406:	11 50       	subi	r17, 0x01	; 1
-    3408:	f9 f6       	brne	.-66     	; 0x33c8 <_lora_setup+0x112>
+    3386:	80 e0       	ldi	r24, 0x00	; 0
+    3388:	90 e0       	ldi	r25, 0x00	; 0
+    338a:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
+    338e:	11 50       	subi	r17, 0x01	; 1
+    3390:	f9 f6       	brne	.-66     	; 0x3350 <_lora_setup+0x112>
 		}
 		else
 		{
 			break;
 		}
 	} while (--maxJoinTriesLeft);
-    340a:	08 30       	cpi	r16, 0x08	; 8
-    340c:	41 f4       	brne	.+16     	; 0x341e <_lora_setup+0x168>
+    3392:	08 30       	cpi	r16, 0x08	; 8
+    3394:	41 f4       	brne	.+16     	; 0x33a6 <_lora_setup+0x168>
 
 	if (rc == LORA_ACCEPTED)
-    340e:	83 e3       	ldi	r24, 0x33	; 51
-    3410:	94 e0       	ldi	r25, 0x04	; 4
+    3396:	82 e0       	ldi	r24, 0x02	; 2
+    3398:	94 e0       	ldi	r25, 0x04	; 4
 	{
 		// Connected to LoRaWAN :-)
 		// Make the green led steady
 		printf("\t We have been accepted \n");
-    3412:	0e 94 bd 2c 	call	0x597a	; 0x597a <puts>
-    3416:	81 e0       	ldi	r24, 0x01	; 1
-    3418:	0e 94 22 27 	call	0x4e44	; 0x4e44 <status_leds_ledOn>
+    339a:	0e 94 bd 2c 	call	0x597a	; 0x597a <puts>
+    339e:	81 e0       	ldi	r24, 0x01	; 1
+    33a0:	0e 94 22 27 	call	0x4e44	; 0x4e44 <status_leds_ledOn>
 		status_leds_ledOn(led_ST2); // OPTIONAL
-    341c:	09 c0       	rjmp	.+18     	; 0x3430 <_lora_setup+0x17a>
-    341e:	81 e0       	ldi	r24, 0x01	; 1
+    33a4:	09 c0       	rjmp	.+18     	; 0x33b8 <_lora_setup+0x17a>
+    33a6:	81 e0       	ldi	r24, 0x01	; 1
 		while (1)
 		{
 			taskYIELD();
 		}
 	}
 }
-    3420:	0e 94 31 27 	call	0x4e62	; 0x4e62 <status_leds_ledOff>
+    33a8:	0e 94 31 27 	call	0x4e62	; 0x4e62 <status_leds_ledOff>
 	}
 	else
 	{
 		// Something went wrong
 		// Turn off the green led
 		status_leds_ledOff(led_ST2); // OPTIONAL
-    3424:	80 e0       	ldi	r24, 0x00	; 0
-    3426:	0e 94 ff 26 	call	0x4dfe	; 0x4dfe <status_leds_fastBlink>
+    33ac:	80 e0       	ldi	r24, 0x00	; 0
+    33ae:	0e 94 ff 26 	call	0x4dfe	; 0x4dfe <status_leds_fastBlink>
 		// Make the red led blink fast to tell something went wrong
 		status_leds_fastBlink(led_ST1); // OPTIONAL
-    342a:	0e 94 ad 03 	call	0x75a	; 0x75a <vPortYield>
+    33b2:	0e 94 ad 03 	call	0x75a	; 0x75a <vPortYield>
 
 		// Lets stay here
 		while (1)
 		{
 			taskYIELD();
-    342e:	fd cf       	rjmp	.-6      	; 0x342a <_lora_setup+0x174>
-    3430:	64 96       	adiw	r28, 0x14	; 20
-    3432:	0f b6       	in	r0, 0x3f	; 63
+    33b6:	fd cf       	rjmp	.-6      	; 0x33b2 <_lora_setup+0x174>
+    33b8:	64 96       	adiw	r28, 0x14	; 20
+    33ba:	0f b6       	in	r0, 0x3f	; 63
 		}
 	}
 }
-    3434:	f8 94       	cli
-    3436:	de bf       	out	0x3e, r29	; 62
-    3438:	0f be       	out	0x3f, r0	; 63
-    343a:	cd bf       	out	0x3d, r28	; 61
-    343c:	df 91       	pop	r29
-    343e:	cf 91       	pop	r28
-    3440:	1f 91       	pop	r17
-    3442:	0f 91       	pop	r16
-    3444:	08 95       	ret
+    33bc:	f8 94       	cli
+    33be:	de bf       	out	0x3e, r29	; 62
+    33c0:	0f be       	out	0x3f, r0	; 63
+    33c2:	cd bf       	out	0x3d, r28	; 61
+    33c4:	df 91       	pop	r29
+    33c6:	cf 91       	pop	r28
+    33c8:	1f 91       	pop	r17
+    33ca:	0f 91       	pop	r16
+    33cc:	08 95       	ret
 
-00003446 <lora_handler_task>:
-    3446:	cf 93       	push	r28
-    3448:	df 93       	push	r29
+000033ce <lora_handler_task>:
+    33ce:	cf 93       	push	r28
+    33d0:	df 93       	push	r29
 
 /*-----------------------------------------------------------*/
 void lora_handler_task( void *pvParameters )
 {
-    344a:	cd b7       	in	r28, 0x3d	; 61
-    344c:	de b7       	in	r29, 0x3e	; 62
-    344e:	6a 97       	sbiw	r28, 0x1a	; 26
-    3450:	0f b6       	in	r0, 0x3f	; 63
-    3452:	f8 94       	cli
-    3454:	de bf       	out	0x3e, r29	; 62
-    3456:	0f be       	out	0x3f, r0	; 63
-    3458:	cd bf       	out	0x3d, r28	; 61
+    33d2:	cd b7       	in	r28, 0x3d	; 61
+    33d4:	de b7       	in	r29, 0x3e	; 62
+    33d6:	6a 97       	sbiw	r28, 0x1a	; 26
+    33d8:	0f b6       	in	r0, 0x3f	; 63
+    33da:	f8 94       	cli
+    33dc:	de bf       	out	0x3e, r29	; 62
+    33de:	0f be       	out	0x3f, r0	; 63
+    33e0:	cd bf       	out	0x3d, r28	; 61
 
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
-    345a:	81 e0       	ldi	r24, 0x01	; 1
-    345c:	ac d3       	rcall	.+1880   	; 0x3bb6 <lora_driver_resetRn2483>
+    33e2:	81 e0       	ldi	r24, 0x01	; 1
+    33e4:	e8 d3       	rcall	.+2000   	; 0x3bb6 <lora_driver_resetRn2483>
 	vTaskDelay(2);
-    345e:	62 e0       	ldi	r22, 0x02	; 2
-    3460:	70 e0       	ldi	r23, 0x00	; 0
-    3462:	80 e0       	ldi	r24, 0x00	; 0
-    3464:	90 e0       	ldi	r25, 0x00	; 0
-    3466:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
+    33e6:	62 e0       	ldi	r22, 0x02	; 2
+    33e8:	70 e0       	ldi	r23, 0x00	; 0
+    33ea:	80 e0       	ldi	r24, 0x00	; 0
+    33ec:	90 e0       	ldi	r25, 0x00	; 0
+    33ee:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
 	lora_driver_resetRn2483(0);
-    346a:	80 e0       	ldi	r24, 0x00	; 0
-    346c:	a4 d3       	rcall	.+1864   	; 0x3bb6 <lora_driver_resetRn2483>
+    33f2:	80 e0       	ldi	r24, 0x00	; 0
+    33f4:	e0 d3       	rcall	.+1984   	; 0x3bb6 <lora_driver_resetRn2483>
 	// Give it a chance to wakeup
 	vTaskDelay(150);
-    346e:	66 e9       	ldi	r22, 0x96	; 150
-    3470:	70 e0       	ldi	r23, 0x00	; 0
-    3472:	80 e0       	ldi	r24, 0x00	; 0
-    3474:	90 e0       	ldi	r25, 0x00	; 0
-    3476:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
+    33f6:	66 e9       	ldi	r22, 0x96	; 150
+    33f8:	70 e0       	ldi	r23, 0x00	; 0
+    33fa:	80 e0       	ldi	r24, 0x00	; 0
+    33fc:	90 e0       	ldi	r25, 0x00	; 0
+    33fe:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
 
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-    347a:	56 d3       	rcall	.+1708   	; 0x3b28 <lora_driver_flushBuffers>
+    3402:	92 d3       	rcall	.+1828   	; 0x3b28 <lora_driver_flushBuffers>
 
 	_lora_setup();
-    347c:	1c df       	rcall	.-456    	; 0x32b6 <_lora_setup>
-    347e:	e1 e7       	ldi	r30, 0x71	; 113
+    3404:	1c df       	rcall	.-456    	; 0x323e <_lora_setup>
+    3406:	e1 e7       	ldi	r30, 0x71	; 113
 
 	// DEFINING SIZE OF PAYLOAD
 	_uplink_payload.len = 8;
-    3480:	f6 e1       	ldi	r31, 0x16	; 22
-    3482:	88 e0       	ldi	r24, 0x08	; 8
-    3484:	81 83       	std	Z+1, r24	; 0x01
-    3486:	82 e0       	ldi	r24, 0x02	; 2
+    3408:	f6 e1       	ldi	r31, 0x16	; 22
+    340a:	88 e0       	ldi	r24, 0x08	; 8
+    340c:	81 83       	std	Z+1, r24	; 0x01
+    340e:	82 e0       	ldi	r24, 0x02	; 2
 	_uplink_payload.portNo = 2;
-    3488:	80 83       	st	Z, r24
-    348a:	0e 94 f4 0c 	call	0x19e8	; 0x19e8 <xTaskGetTickCount>
+    3410:	80 83       	st	Z, r24
+    3412:	0e 94 f4 0c 	call	0x19e8	; 0x19e8 <xTaskGetTickCount>
 
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
-    348e:	69 83       	std	Y+1, r22	; 0x01
-    3490:	7a 83       	std	Y+2, r23	; 0x02
-    3492:	8b 83       	std	Y+3, r24	; 0x03
-    3494:	9c 83       	std	Y+4, r25	; 0x04
+    3416:	69 83       	std	Y+1, r22	; 0x01
+    3418:	7a 83       	std	Y+2, r23	; 0x02
+    341a:	8b 83       	std	Y+3, r24	; 0x03
+    341c:	9c 83       	std	Y+4, r25	; 0x04
+    341e:	8b e1       	ldi	r24, 0x1B	; 27
 	for(;;)
 	{
 		uint16_t growbroId = 1;
-			
-			// JUST FOR SERVO
-			rc_servo_initialise();
-    3496:	67 d7       	rcall	.+3790   	; 0x4366 <rc_servo_initialise>
-    3498:	64 e6       	ldi	r22, 0x64	; 100
-			uint8_t servoNo = 1;
-			int8_t percent = 100;
-			rc_servo_setPosition(servoNo, percent);
-    349a:	81 e0       	ldi	r24, 0x01	; 1
-    349c:	4c d7       	rcall	.+3736   	; 0x4336 <rc_servo_setPosition>
-    349e:	8c e4       	ldi	r24, 0x4C	; 76
-    34a0:	94 e0       	ldi	r25, 0x04	; 4
-			
+					
 			
 		printf("\t going into delay \n");
-    34a2:	0e 94 bd 2c 	call	0x597a	; 0x597a <puts>
-    34a6:	48 ea       	ldi	r20, 0xA8	; 168
-    34a8:	58 e4       	ldi	r21, 0x48	; 72
+    3420:	94 e0       	ldi	r25, 0x04	; 4
+    3422:	0e 94 bd 2c 	call	0x597a	; 0x597a <puts>
+    3426:	48 ea       	ldi	r20, 0xA8	; 168
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-    34aa:	60 e0       	ldi	r22, 0x00	; 0
-    34ac:	70 e0       	ldi	r23, 0x00	; 0
-    34ae:	ce 01       	movw	r24, r28
-    34b0:	01 96       	adiw	r24, 0x01	; 1
-    34b2:	0e 94 0a 0f 	call	0x1e14	; 0x1e14 <xTaskDelayUntil>
-    34b6:	0e 94 73 01 	call	0x2e6	; 0x2e6 <dequeueSharedData>
+    3428:	58 e4       	ldi	r21, 0x48	; 72
+    342a:	60 e0       	ldi	r22, 0x00	; 0
+    342c:	70 e0       	ldi	r23, 0x00	; 0
+    342e:	ce 01       	movw	r24, r28
+    3430:	01 96       	adiw	r24, 0x01	; 1
+    3432:	0e 94 0a 0f 	call	0x1e14	; 0x1e14 <xTaskDelayUntil>
+    3436:	0e 94 73 01 	call	0x2e6	; 0x2e6 <dequeueSharedData>
 		
 		// Creating struct and dequeueing data
 		SharedData_t sharedData;
 		sharedData = dequeueSharedData();
-    34ba:	8c 01       	movw	r16, r24
-    34bc:	dc 01       	movw	r26, r24
-    34be:	13 96       	adiw	r26, 0x03	; 3
+    343a:	8c 01       	movw	r16, r24
+    343c:	dc 01       	movw	r26, r24
 		
 		printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
-    34c0:	8c 91       	ld	r24, X
-    34c2:	13 97       	sbiw	r26, 0x03	; 3
-    34c4:	8f 93       	push	r24
-    34c6:	12 96       	adiw	r26, 0x02	; 2
-    34c8:	8c 91       	ld	r24, X
-    34ca:	12 97       	sbiw	r26, 0x02	; 2
-    34cc:	8f 93       	push	r24
-    34ce:	11 96       	adiw	r26, 0x01	; 1
-    34d0:	8c 91       	ld	r24, X
-    34d2:	11 97       	sbiw	r26, 0x01	; 1
-    34d4:	8f 93       	push	r24
-    34d6:	8c 91       	ld	r24, X
-    34d8:	8f 93       	push	r24
-    34da:	15 96       	adiw	r26, 0x05	; 5
-    34dc:	8c 91       	ld	r24, X
-    34de:	15 97       	sbiw	r26, 0x05	; 5
-    34e0:	8f 93       	push	r24
-    34e2:	14 96       	adiw	r26, 0x04	; 4
-    34e4:	8c 91       	ld	r24, X
-    34e6:	8f 93       	push	r24
-    34e8:	80 e6       	ldi	r24, 0x60	; 96
-    34ea:	94 e0       	ldi	r25, 0x04	; 4
-    34ec:	9f 93       	push	r25
-    34ee:	8f 93       	push	r24
-    34f0:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    34f4:	e1 e7       	ldi	r30, 0x71	; 113
-    34f6:	f6 e1       	ldi	r31, 0x16	; 22
+    343e:	13 96       	adiw	r26, 0x03	; 3
+    3440:	8c 91       	ld	r24, X
+    3442:	13 97       	sbiw	r26, 0x03	; 3
+    3444:	8f 93       	push	r24
+    3446:	12 96       	adiw	r26, 0x02	; 2
+    3448:	8c 91       	ld	r24, X
+    344a:	12 97       	sbiw	r26, 0x02	; 2
+    344c:	8f 93       	push	r24
+    344e:	11 96       	adiw	r26, 0x01	; 1
+    3450:	8c 91       	ld	r24, X
+    3452:	11 97       	sbiw	r26, 0x01	; 1
+    3454:	8f 93       	push	r24
+    3456:	8c 91       	ld	r24, X
+    3458:	8f 93       	push	r24
+    345a:	15 96       	adiw	r26, 0x05	; 5
+    345c:	8c 91       	ld	r24, X
+    345e:	15 97       	sbiw	r26, 0x05	; 5
+    3460:	8f 93       	push	r24
+    3462:	14 96       	adiw	r26, 0x04	; 4
+    3464:	8c 91       	ld	r24, X
+    3466:	8f 93       	push	r24
+    3468:	8f e2       	ldi	r24, 0x2F	; 47
+    346a:	94 e0       	ldi	r25, 0x04	; 4
+    346c:	9f 93       	push	r25
+    346e:	8f 93       	push	r24
+    3470:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3474:	e1 e7       	ldi	r30, 0x71	; 113
 		
 		// CREATING OUR OWN PAYLOAD
 		_uplink_payload.bytes[0] = growbroId >> 8;
-    34f8:	12 82       	std	Z+2, r1	; 0x02
-    34fa:	81 e0       	ldi	r24, 0x01	; 1
-    34fc:	83 83       	std	Z+3, r24	; 0x03
+    3476:	f6 e1       	ldi	r31, 0x16	; 22
+    3478:	12 82       	std	Z+2, r1	; 0x02
+    347a:	81 e0       	ldi	r24, 0x01	; 1
 		_uplink_payload.bytes[1] = growbroId & 0xFF;
-    34fe:	d8 01       	movw	r26, r16
-    3500:	11 96       	adiw	r26, 0x01	; 1
+    347c:	83 83       	std	Z+3, r24	; 0x03
+    347e:	d8 01       	movw	r26, r16
 		_uplink_payload.bytes[2] = sharedData->co2 >> 8;
-    3502:	8c 91       	ld	r24, X
-    3504:	11 97       	sbiw	r26, 0x01	; 1
-    3506:	84 83       	std	Z+4, r24	; 0x04
-    3508:	8c 91       	ld	r24, X
-    350a:	85 83       	std	Z+5, r24	; 0x05
+    3480:	11 96       	adiw	r26, 0x01	; 1
+    3482:	8c 91       	ld	r24, X
+    3484:	11 97       	sbiw	r26, 0x01	; 1
+    3486:	84 83       	std	Z+4, r24	; 0x04
+    3488:	8c 91       	ld	r24, X
 		_uplink_payload.bytes[3] = sharedData->co2 & 0xFF;
-    350c:	15 96       	adiw	r26, 0x05	; 5
-    350e:	8c 91       	ld	r24, X
+    348a:	85 83       	std	Z+5, r24	; 0x05
+    348c:	15 96       	adiw	r26, 0x05	; 5
 		_uplink_payload.bytes[4] = sharedData->humidity >> 8;
-    3510:	15 97       	sbiw	r26, 0x05	; 5
-    3512:	86 83       	std	Z+6, r24	; 0x06
-    3514:	14 96       	adiw	r26, 0x04	; 4
-    3516:	8c 91       	ld	r24, X
+    348e:	8c 91       	ld	r24, X
+    3490:	15 97       	sbiw	r26, 0x05	; 5
+    3492:	86 83       	std	Z+6, r24	; 0x06
+    3494:	14 96       	adiw	r26, 0x04	; 4
 		_uplink_payload.bytes[5] = sharedData->humidity & 0xFF;
-    3518:	14 97       	sbiw	r26, 0x04	; 4
-    351a:	87 83       	std	Z+7, r24	; 0x07
-    351c:	13 96       	adiw	r26, 0x03	; 3
-    351e:	8c 91       	ld	r24, X
+    3496:	8c 91       	ld	r24, X
+    3498:	14 97       	sbiw	r26, 0x04	; 4
+    349a:	87 83       	std	Z+7, r24	; 0x07
+    349c:	13 96       	adiw	r26, 0x03	; 3
 		_uplink_payload.bytes[6] = sharedData->temperature >> 8;
-    3520:	13 97       	sbiw	r26, 0x03	; 3
-    3522:	80 87       	std	Z+8, r24	; 0x08
-    3524:	12 96       	adiw	r26, 0x02	; 2
-    3526:	8c 91       	ld	r24, X
+    349e:	8c 91       	ld	r24, X
+    34a0:	13 97       	sbiw	r26, 0x03	; 3
+    34a2:	80 87       	std	Z+8, r24	; 0x08
+    34a4:	12 96       	adiw	r26, 0x02	; 2
 		_uplink_payload.bytes[7] = sharedData->temperature & 0xFF;
-    3528:	81 87       	std	Z+9, r24	; 0x09
-    352a:	83 e0       	ldi	r24, 0x03	; 3
-    352c:	0e 94 52 27 	call	0x4ea4	; 0x4ea4 <status_leds_shortPuls>
+    34a6:	8c 91       	ld	r24, X
+    34a8:	81 87       	std	Z+9, r24	; 0x09
+    34aa:	83 e0       	ldi	r24, 0x03	; 3
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
+    34ac:	0e 94 52 27 	call	0x4ea4	; 0x4ea4 <status_leds_shortPuls>
 		
 		// SENDING PAYLOAD
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-    3530:	61 e7       	ldi	r22, 0x71	; 113
-    3532:	76 e1       	ldi	r23, 0x16	; 22
-    3534:	80 e0       	ldi	r24, 0x00	; 0
-    3536:	dd d3       	rcall	.+1978   	; 0x3cf2 <lora_driver_sendUploadMessage>
-    3538:	c9 d5       	rcall	.+2962   	; 0x40cc <lora_driver_mapReturnCodeToText>
-    353a:	9f 93       	push	r25
-    353c:	8f 93       	push	r24
-    353e:	8b e8       	ldi	r24, 0x8B	; 139
-    3540:	94 e0       	ldi	r25, 0x04	; 4
-    3542:	9f 93       	push	r25
-    3544:	8f 93       	push	r24
-    3546:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    354a:	0f ef       	ldi	r16, 0xFF	; 255
-    354c:	1f ef       	ldi	r17, 0xFF	; 255
+    34b0:	61 e7       	ldi	r22, 0x71	; 113
+    34b2:	76 e1       	ldi	r23, 0x16	; 22
+    34b4:	80 e0       	ldi	r24, 0x00	; 0
+    34b6:	1d d4       	rcall	.+2106   	; 0x3cf2 <lora_driver_sendUploadMessage>
+    34b8:	09 d6       	rcall	.+3090   	; 0x40cc <lora_driver_mapReturnCodeToText>
+    34ba:	9f 93       	push	r25
+    34bc:	8f 93       	push	r24
+    34be:	8a e5       	ldi	r24, 0x5A	; 90
+    34c0:	94 e0       	ldi	r25, 0x04	; 4
+    34c2:	9f 93       	push	r25
+    34c4:	8f 93       	push	r24
+    34c6:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    34ca:	0f ef       	ldi	r16, 0xFF	; 255
 		
 		
 		lora_driver_payload_t downlinkPayload;
 		
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-    354e:	98 01       	movw	r18, r16
-    3550:	46 e1       	ldi	r20, 0x16	; 22
-    3552:	50 e0       	ldi	r21, 0x00	; 0
-    3554:	be 01       	movw	r22, r28
-    3556:	6b 5f       	subi	r22, 0xFB	; 251
-    3558:	7f 4f       	sbci	r23, 0xFF	; 255
-    355a:	80 91 f7 17 	lds	r24, 0x17F7	; 0x8017f7 <downlinkMessageBufferHandle>
-    355e:	90 91 f8 17 	lds	r25, 0x17F8	; 0x8017f8 <downlinkMessageBufferHandle+0x1>
-    3562:	0e 94 d7 09 	call	0x13ae	; 0x13ae <xStreamBufferReceive>
-    3566:	9e 81       	ldd	r25, Y+6	; 0x06
-    3568:	8d 81       	ldd	r24, Y+5	; 0x05
+    34cc:	1f ef       	ldi	r17, 0xFF	; 255
+    34ce:	98 01       	movw	r18, r16
+    34d0:	46 e1       	ldi	r20, 0x16	; 22
+    34d2:	50 e0       	ldi	r21, 0x00	; 0
+    34d4:	be 01       	movw	r22, r28
+    34d6:	6b 5f       	subi	r22, 0xFB	; 251
+    34d8:	7f 4f       	sbci	r23, 0xFF	; 255
+    34da:	80 91 f7 17 	lds	r24, 0x17F7	; 0x8017f7 <downlinkMessageBufferHandle>
+    34de:	90 91 f8 17 	lds	r25, 0x17F8	; 0x8017f8 <downlinkMessageBufferHandle+0x1>
+    34e2:	0e 94 d7 09 	call	0x13ae	; 0x13ae <xStreamBufferReceive>
+    34e6:	9e 81       	ldd	r25, Y+6	; 0x06
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
-    356a:	1f 92       	push	r1
-    356c:	9f 93       	push	r25
-    356e:	1f 92       	push	r1
-    3570:	8f 93       	push	r24
-    3572:	85 ed       	ldi	r24, 0xD5	; 213
-    3574:	92 e0       	ldi	r25, 0x02	; 2
-    3576:	9f 93       	push	r25
-    3578:	8f 93       	push	r24
-    357a:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
-    357e:	8e 81       	ldd	r24, Y+6	; 0x06
-    3580:	0f b6       	in	r0, 0x3f	; 63
+    34e8:	8d 81       	ldd	r24, Y+5	; 0x05
+    34ea:	1f 92       	push	r1
+    34ec:	9f 93       	push	r25
+    34ee:	1f 92       	push	r1
+    34f0:	8f 93       	push	r24
+    34f2:	8f e6       	ldi	r24, 0x6F	; 111
+    34f4:	94 e0       	ldi	r25, 0x04	; 4
+    34f6:	9f 93       	push	r25
+    34f8:	8f 93       	push	r24
+    34fa:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    34fe:	8e 81       	ldd	r24, Y+6	; 0x06
 
 		
 		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
-    3582:	f8 94       	cli
-    3584:	de bf       	out	0x3e, r29	; 62
-    3586:	0f be       	out	0x3f, r0	; 63
-    3588:	cd bf       	out	0x3d, r28	; 61
-    358a:	84 30       	cpi	r24, 0x04	; 4
-    358c:	09 f0       	breq	.+2      	; 0x3590 <lora_handler_task+0x14a>
-    358e:	83 cf       	rjmp	.-250    	; 0x3496 <lora_handler_task+0x50>
-    3590:	8f 81       	ldd	r24, Y+7	; 0x07
-    3592:	90 e0       	ldi	r25, 0x00	; 0
+    3500:	0f b6       	in	r0, 0x3f	; 63
+    3502:	f8 94       	cli
+    3504:	de bf       	out	0x3e, r29	; 62
+    3506:	0f be       	out	0x3f, r0	; 63
+    3508:	cd bf       	out	0x3d, r28	; 61
+    350a:	84 30       	cpi	r24, 0x04	; 4
+    350c:	09 f0       	breq	.+2      	; 0x3510 <lora_handler_task+0x142>
+    350e:	87 cf       	rjmp	.-242    	; 0x341e <lora_handler_task+0x50>
+    3510:	8f 81       	ldd	r24, Y+7	; 0x07
 		{
 		
 		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
-    3594:	98 2f       	mov	r25, r24
-    3596:	88 27       	eor	r24, r24
-    3598:	28 85       	ldd	r18, Y+8	; 0x08
-    359a:	82 0f       	add	r24, r18
-    359c:	91 1d       	adc	r25, r1
-    359e:	9f 93       	push	r25
-    35a0:	8f 93       	push	r24
+    3512:	90 e0       	ldi	r25, 0x00	; 0
+    3514:	98 2f       	mov	r25, r24
+    3516:	88 27       	eor	r24, r24
+    3518:	28 85       	ldd	r18, Y+8	; 0x08
+    351a:	82 0f       	add	r24, r18
+    351c:	91 1d       	adc	r25, r1
+    351e:	9f 93       	push	r25
 		printf("recieved: %d \n", recieve);
-    35a2:	80 ea       	ldi	r24, 0xA0	; 160
-    35a4:	94 e0       	ldi	r25, 0x04	; 4
-    35a6:	9f 93       	push	r25
-    35a8:	8f 93       	push	r24
-    35aa:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    3520:	8f 93       	push	r24
+    3522:	80 ea       	ldi	r24, 0xA0	; 160
+    3524:	94 e0       	ldi	r25, 0x04	; 4
+    3526:	9f 93       	push	r25
+    3528:	8f 93       	push	r24
+    352a:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    352e:	0f 90       	pop	r0
+    3530:	0f 90       	pop	r0
+    3532:	0f 90       	pop	r0
+    3534:	0f 90       	pop	r0
+    3536:	73 cf       	rjmp	.-282    	; 0x341e <lora_handler_task+0x50>
+
+00003538 <task_download>:
+		}
+	}
+    3538:	cf 93       	push	r28
+
+}
+
+void task_download( void *pvParameters )
+{
+    353a:	df 93       	push	r29
+    353c:	cd b7       	in	r28, 0x3d	; 61
+    353e:	de b7       	in	r29, 0x3e	; 62
+    3540:	66 97       	sbiw	r28, 0x16	; 22
+    3542:	0f b6       	in	r0, 0x3f	; 63
+    3544:	f8 94       	cli
+    3546:	de bf       	out	0x3e, r29	; 62
+    3548:	0f be       	out	0x3f, r0	; 63
+    354a:	cd bf       	out	0x3d, r28	; 61
+
+	// Hardware reset of LoRaWAN transceiver
+	lora_driver_resetRn2483(1);
+    354c:	81 e0       	ldi	r24, 0x01	; 1
+    354e:	33 d3       	rcall	.+1638   	; 0x3bb6 <lora_driver_resetRn2483>
+	vTaskDelay(2);
+    3550:	62 e0       	ldi	r22, 0x02	; 2
+    3552:	70 e0       	ldi	r23, 0x00	; 0
+    3554:	80 e0       	ldi	r24, 0x00	; 0
+    3556:	90 e0       	ldi	r25, 0x00	; 0
+    3558:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
+	lora_driver_resetRn2483(0);
+    355c:	80 e0       	ldi	r24, 0x00	; 0
+    355e:	2b d3       	rcall	.+1622   	; 0x3bb6 <lora_driver_resetRn2483>
+	// Give it a chance to wakeup
+	vTaskDelay(150);
+    3560:	66 e9       	ldi	r22, 0x96	; 150
+    3562:	70 e0       	ldi	r23, 0x00	; 0
+    3564:	80 e0       	ldi	r24, 0x00	; 0
+    3566:	90 e0       	ldi	r25, 0x00	; 0
+    3568:	0e 94 6f 0f 	call	0x1ede	; 0x1ede <vTaskDelay>
+
+	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+    356c:	dd d2       	rcall	.+1466   	; 0x3b28 <lora_driver_flushBuffers>
+	
+	// JUST FOR SERVO
+	rc_servo_initialise();
+    356e:	fb d6       	rcall	.+3574   	; 0x4366 <rc_servo_initialise>
+	uint8_t servoNo = 1;
+	int8_t percent = 100;
+	rc_servo_setPosition(servoNo, percent);
+    3570:	64 e6       	ldi	r22, 0x64	; 100
+    3572:	81 e0       	ldi	r24, 0x01	; 1
+    3574:	e0 d6       	rcall	.+3520   	; 0x4336 <rc_servo_setPosition>
+    3576:	0f ef       	ldi	r16, 0xFF	; 255
+	uint16_t recieve;
+	for(;;)
+	{	
+		lora_driver_payload_t downlinkPayload;
+		
+		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+    3578:	1f ef       	ldi	r17, 0xFF	; 255
+    357a:	98 01       	movw	r18, r16
+    357c:	46 e1       	ldi	r20, 0x16	; 22
+    357e:	50 e0       	ldi	r21, 0x00	; 0
+    3580:	be 01       	movw	r22, r28
+    3582:	6f 5f       	subi	r22, 0xFF	; 255
+    3584:	7f 4f       	sbci	r23, 0xFF	; 255
+    3586:	80 91 f7 17 	lds	r24, 0x17F7	; 0x8017f7 <downlinkMessageBufferHandle>
+    358a:	90 91 f8 17 	lds	r25, 0x17F8	; 0x8017f8 <downlinkMessageBufferHandle+0x1>
+    358e:	0e 94 d7 09 	call	0x13ae	; 0x13ae <xStreamBufferReceive>
+    3592:	9a 81       	ldd	r25, Y+2	; 0x02
+		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
+    3594:	89 81       	ldd	r24, Y+1	; 0x01
+    3596:	1f 92       	push	r1
+    3598:	9f 93       	push	r25
+    359a:	1f 92       	push	r1
+    359c:	8f 93       	push	r24
+    359e:	8f e6       	ldi	r24, 0x6F	; 111
+    35a0:	94 e0       	ldi	r25, 0x04	; 4
+    35a2:	9f 93       	push	r25
+    35a4:	8f 93       	push	r24
+    35a6:	0e 94 aa 2c 	call	0x5954	; 0x5954 <printf>
+    35aa:	0f 90       	pop	r0
+    35ac:	0f 90       	pop	r0
     35ae:	0f 90       	pop	r0
     35b0:	0f 90       	pop	r0
     35b2:	0f 90       	pop	r0
     35b4:	0f 90       	pop	r0
-    35b6:	6f cf       	rjmp	.-290    	; 0x3496 <lora_handler_task+0x50>
+    35b6:	df cf       	rjmp	.-66     	; 0x3576 <task_download+0x3e>
 
 000035b8 <lora_handler_initialise>:
     35b8:	ef 92       	push	r14
-		}
-	}
-    35ba:	ff 92       	push	r15
 void task_download( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 {
+    35ba:	ff 92       	push	r15
     35bc:	0f 93       	push	r16
     35be:	cf 93       	push	r28
 	xTaskCreate(
@@ -8026,8 +8025,8 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     35cc:	51 e0       	ldi	r21, 0x01	; 1
     35ce:	6f ea       	ldi	r22, 0xAF	; 175
     35d0:	74 e0       	ldi	r23, 0x04	; 4
-    35d2:	83 e2       	ldi	r24, 0x23	; 35
-    35d4:	9a e1       	ldi	r25, 0x1A	; 26
+    35d2:	87 ee       	ldi	r24, 0xE7	; 231
+    35d4:	99 e1       	ldi	r25, 0x19	; 25
     35d6:	0e 94 6a 0c 	call	0x18d4	; 0x18d4 <xTaskCreate>
 	,  "LRHand"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
@@ -8041,8 +8040,8 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
     35e0:	51 e0       	ldi	r21, 0x01	; 1
     35e2:	66 eb       	ldi	r22, 0xB6	; 182
     35e4:	74 e0       	ldi	r23, 0x04	; 4
-    35e6:	8f e1       	ldi	r24, 0x1F	; 31
-    35e8:	99 e1       	ldi	r25, 0x19	; 25
+    35e6:	8c e9       	ldi	r24, 0x9C	; 156
+    35e8:	9a e1       	ldi	r25, 0x1A	; 26
     35ea:	0e 94 6a 0c 	call	0x18d4	; 0x18d4 <xTaskCreate>
 	,  "LRHanddown"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
