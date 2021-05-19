@@ -166,20 +166,7 @@ void lora_handler_task( void *pvParameters )
 		
 		// SENDING PAYLOAD
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-		
-		
-		lora_driver_payload_t downlinkPayload;
-		
-		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
-
-		
-		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
-		{
-		
-		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
-		printf("recieved: %d \n", recieve);
-		}
+	
 	}
 
 }
