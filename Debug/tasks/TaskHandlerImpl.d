@@ -27,7 +27,9 @@ tasks/TaskHandlerImpl.d tasks/TaskHandlerImpl.o: \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../drivers/../measuredrivers/header/CO2Handler.h ../drivers/mh_z19.h \
- ../drivers/serial.h ../drivers/../data/header/SharedDataQueue.h
+ ../drivers/serial.h ../drivers/../data/header/SharedDataQueue.h \
+ ../tasks/../semaphore/header/testOutprint.h ../FreeRTOS/src/semphr.h \
+ ../FreeRTOS/src/queue.h
 
 ../tasks/../tasks/header/TaskHandler.h:
 
@@ -100,3 +102,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../drivers/serial.h:
 
 ../drivers/../data/header/SharedDataQueue.h:
+
+../tasks/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

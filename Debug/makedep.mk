@@ -32,6 +32,8 @@ measuredrivers\TempHumHandler.c
 
 networkdrivers\LoRaWANHandlerImpl.c
 
+semaphore\testOutprintImpl.c
+
 tasks\TaskHandlerImpl.c
 
 main.c

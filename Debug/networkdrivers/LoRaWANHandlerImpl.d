@@ -30,7 +30,9 @@ networkdrivers/LoRaWANHandlerImpl.d networkdrivers/LoRaWANHandlerImpl.o: \
  ../drivers/mh_z19.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../drivers/../measuredrivers/header/TempHumHandler.h \
- ../drivers/hih8120.h ../drivers/rc_servo.h
+ ../drivers/hih8120.h ../drivers/rc_servo.h \
+ ../networkdrivers/../semaphore/header/testOutprint.h \
+ ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 ../networkdrivers/../networkdrivers/header/LoRaWANHandler.h:
 
@@ -111,3 +113,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../drivers/hih8120.h:
 
 ../drivers/rc_servo.h:
+
+../networkdrivers/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/task.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

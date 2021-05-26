@@ -19,6 +19,7 @@
 #include "../tasks/header/TaskHandler.h"
 #include "../measuredrivers/header/CO2Handler.h"
 #include "../measuredrivers/header/TempHumHandler.h"
+#include "../semaphore/header/testOutprint.h"
 
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
@@ -59,7 +60,11 @@ printf("Program Started!!\n");
 int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
-	printf("Program Started!!\n");
+	
+	initializeSemaphore();
+	
+	puts("Program started!");
+	
 	startTasks();
 	while (1)
 	{

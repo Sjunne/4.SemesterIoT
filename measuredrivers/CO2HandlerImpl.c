@@ -6,6 +6,7 @@
  */ 
 
 #include "../measuredrivers/header/CO2Handler.h"
+#include "../semaphore/header/testOutprint.h"
 
 QueueHandle_t xQueueCO2;
 
@@ -15,6 +16,9 @@ void initializeCO2Queue() {
 
 
 void enqueueCO2Measure(uint16_t ppm){
+	sprintf(printstring, "Putting CO2: %d in the queue \n", ppm);
+	test_outprint(printstring);
+	
 	xQueueSend(xQueueCO2, (void*)&ppm, portMAX_DELAY);
 }
 
@@ -28,7 +32,7 @@ void co2Measure() {
 	}
 	else
 	{
-		puts("det gik galt");
+		puts("Det gik galt");
 	}
 }
 
@@ -37,5 +41,9 @@ uint16_t dequeueCO2Measure(){
 	uint16_t ppm;
 	
 	xQueueReceive(xQueueCO2, &ppm, 1500);
+	
+	sprintf(printstring, "Removing CO2: %d from the queue \n", ppm);
+	test_outprint(printstring);
+
 	return ppm;
 }

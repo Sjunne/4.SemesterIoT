@@ -28,7 +28,8 @@ data/SharedDataQueueImpl.d data/SharedDataQueueImpl.o: \
  ../drivers/serial.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../drivers/../measuredrivers/header/TempHumHandler.h \
- ../drivers/hih8120.h
+ ../drivers/hih8120.h ../data/../semaphore/header/testOutprint.h \
+ ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 ../data/../data/header/SharedDataQueue.h:
 
@@ -97,3 +98,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../drivers/../measuredrivers/header/TempHumHandler.h:
 
 ../drivers/hih8120.h:
+
+../data/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/task.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

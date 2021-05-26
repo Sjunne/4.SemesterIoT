@@ -26,7 +26,9 @@ measuredrivers/CO2HandlerImpl.d measuredrivers/CO2HandlerImpl.o: \
  ../FreeRTOS/src/queue.h ../drivers/mh_z19.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../drivers/serial.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ ../measuredrivers/../semaphore/header/testOutprint.h \
+ ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 ../measuredrivers/../measuredrivers/header/CO2Handler.h:
 
@@ -89,3 +91,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../drivers/serial.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+../measuredrivers/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/task.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:

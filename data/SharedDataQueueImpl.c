@@ -5,6 +5,7 @@
  *  Author: Sjunn
  */ 
 #include "../data/header/SharedDataQueue.h"
+#include "../semaphore/header/testOutprint.h"
 
 QueueHandle_t xQueueShared;
 
@@ -53,8 +54,11 @@ void enqueueSharedData()
 	shared->co2 = co2;
 	shared->temperature = temp;
 	shared->humidity = hum;
+	
+	sprintf(printstring, "ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", hum, co2, temp);
+	test_outprint(printstring);
 
-	printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
+	//printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
 
 	xQueueSend(xQueueShared, (void*)&sharedData, portMAX_DELAY);
 
