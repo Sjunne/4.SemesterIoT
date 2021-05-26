@@ -27,7 +27,6 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 /*-----------------------------------------------------------*/
 void initialiseSystem()
 {
-printf("Program Started!!\n");
 	// Set output ports for leds used in the example
 	DDRA |= _BV(DDA0) | _BV(DDA7);
 

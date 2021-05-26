@@ -104,10 +104,10 @@ static void _lora_setup(void)
 	do {
 		rc = lora_driver_join(LORA_OTAA);
 		
-		sprintf(printstring, "Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
-		test_outprint(printstring);
+		//sprintf(printstring, "Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
+		//test_outprint(printstring);
 		
-		//printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
+		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
 
 		if ( rc != LORA_ACCEPTED)
 		{
@@ -126,7 +126,7 @@ static void _lora_setup(void)
 	{
 		// Connected to LoRaWAN :-)
 		// Make the green led steady
-		test_outprint("\t We have been accepted \n");
+		printf("\t We have been accepted \n");
 		status_leds_ledOn(led_ST2); // OPTIONAL
 	}
 	else
@@ -172,16 +172,18 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		uint16_t growbroId = 1;
-					
 			
-		printf("\t going into delay \n");
+		puts("\t going into delay");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 		// Creating struct and dequeueing data
 		SharedData_t sharedData;
 		sharedData = dequeueSharedData();
 		
-		printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
+		sprintf(printstring, "DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
+		test_outprint(printstring);
+		
+		//printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
 		
 		// CREATING OUR OWN PAYLOAD
 		_uplink_payload.bytes[0] = growbroId >> 8;
@@ -196,7 +198,10 @@ void lora_handler_task( void *pvParameters )
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		
 		// SENDING PAYLOAD
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		//printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		sprintf(printstring, "Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		test_outprint(printstring);
 	
 	}
 

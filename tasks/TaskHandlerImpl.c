@@ -74,7 +74,7 @@ void startTasks()
 	setupTasks();
 	
 	sprintf(printstring, "Heapsize: %d \n", xPortGetFreeHeapSize());
-	test_outprint(printstring);
+	//test_outprint(printstring);
 	
 	vTaskStartScheduler(); // Initialize and run the freeRTOS scheduler. Execution should never return from here.
 }
