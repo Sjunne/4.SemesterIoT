@@ -225,18 +225,14 @@ void task_download( void *pvParameters )
 	//int8_t percent = 100;
 	//rc_servo_setPosition(servoNo, percent);
 	
-	//downlinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
-	uint16_t recieve;
+	
 	lora_driver_payload_t downlinkPayload;
 	downlinkPayload.portNo = 2;
 	downlinkPayload.len = 4;
+	uint16_t recieve;
 	for(;;)
 	{	
-		printf("VENTER PÅ DOWNLINK");
-
-		//xMessageBufferSend(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-		//xStreamBufferReceive( ( StreamBufferHandle_t ) downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY );
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
 
 		
@@ -245,11 +241,6 @@ void task_download( void *pvParameters )
 			
 		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
 		}
-		
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(20000); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
-	xLastWakeTime = xTaskGetTickCount();
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
 	}
 }
