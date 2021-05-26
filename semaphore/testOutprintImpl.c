@@ -20,7 +20,6 @@ void test_outprint(char* outprint) {
 	if( xSemaphoreTake( xSemaphore, ( TickType_t ) 100 ) == pdTRUE )
 	{
 		printf(outprint);
-		fflush(stdout);
 		xSemaphoreGive( xSemaphore );
 	}
 	else
