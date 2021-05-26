@@ -226,11 +226,12 @@ void task_download( void *pvParameters )
 	//rc_servo_setPosition(servoNo, percent);
 	
 	
+	lora_driver_payload_t downlinkPayload;
+	downlinkPayload.portNo = 2;
+	downlinkPayload.len = 4;
 	uint16_t recieve;
 	for(;;)
 	{	
-		lora_driver_payload_t downlinkPayload;
-		
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
 
