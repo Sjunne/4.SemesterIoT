@@ -7,6 +7,7 @@
  */ 
 
 #include "../measuredrivers/header/TempHumHandler.h"
+#include "../semaphore/header/testOutprint.h"
 
 QueueHandle_t xQueueTemp;
 QueueHandle_t xQueueHum;
@@ -19,10 +20,16 @@ void initializeTempHumQueues()
 }
 
 void enqueueTemperature(int16_t temp){
+	sprintf(printstring, "Putting temperature: %d in the queue \n", temp);
+	test_outprint(printstring);
+	
 	xQueueSend(xQueueTemp, (void*)&temp, portMAX_DELAY);
 }
 
 void enqueueHumidity(uint16_t hum){
+	sprintf(printstring, "Putting humidity: %d in the queue \n", hum);
+	test_outprint(printstring);
+	
 	xQueueSend(xQueueHum, (void*)&hum, portMAX_DELAY);	
 }
 
@@ -37,12 +44,12 @@ void tempHumMeasure()
 
 	if(HIH8120_OK != hih8120_wakeup())
 	{
-		printf("wakeup gik galt");
+		puts("Wakeup gik galt");
 	}
 	xTaskDelayUntil( &xLastWakeTime, xFrequency2 );
 	if(HIH8120_OK != hih8120_measure())
 	{
-		printf("measure gik galt");
+		puts("Measure gik galt");
 	}
 	xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	
@@ -65,6 +72,10 @@ int16_t dequeueTempMeasure(){
 	int16_t temp;
 	
 	xQueueReceive(xQueueTemp, &temp, 1500);
+	
+	sprintf(printstring, "Removing temperature: %d from the queue \n", temp);
+	test_outprint(printstring);
+	
 	return temp;
 }
 
@@ -72,5 +83,9 @@ uint16_t dequeueHumidityMeasure(){
 	uint16_t hum;
 	
 	xQueueReceive(xQueueHum, &hum, 1500);
+	
+	sprintf(printstring, "Removing humidity: %d from the queue \n", hum);
+	test_outprint(printstring);
+		
 	return hum;
 }

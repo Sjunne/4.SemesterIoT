@@ -5,6 +5,7 @@
  *  Author: Sjunn
  */ 
 #include "../data/header/SharedDataQueue.h"
+#include "../semaphore/header/testOutprint.h"
 
 QueueHandle_t xQueueShared;
 
@@ -18,10 +19,8 @@ void initializeSharedDataQueue()
 
 void enqueueSharedData()
 {
-	//uint16_t co2 = dequeueCO2Measure();
-	//int16_t temp = dequeueTempMeasure();
-	//uint16_t hum = dequeueHumidityMeasure();
-	
+	TickType_t xDelay = 25 / portTICK_PERIOD_MS;
+			
 	int counter = 0;
 	
 	uint16_t co2 = 0;
@@ -33,8 +32,11 @@ void enqueueSharedData()
 	int humres = 0;
 	while (counter < 10) {
 		co2 += dequeueCO2Measure();
+		vTaskDelay(xDelay);
 		temp += dequeueTempMeasure();
+		vTaskDelay(xDelay);
 		hum += dequeueHumidityMeasure();
+		vTaskDelay(xDelay);
 		counter++;
 	}
 	co2res = (co2 / (counter + 1));
@@ -45,16 +47,14 @@ void enqueueSharedData()
 	
 	humres = (hum / (counter + 1));
 	hum = (uint16_t) humres;
-	
-	
-
 
 	SharedData_t shared = &sharedData;
 	shared->co2 = co2;
 	shared->temperature = temp;
 	shared->humidity = hum;
-
-	printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
+	
+	sprintf(printstring, "ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", hum, co2, temp);
+	test_outprint(printstring);
 
 	xQueueSend(xQueueShared, (void*)&sharedData, portMAX_DELAY);
 

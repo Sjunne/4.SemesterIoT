@@ -7,6 +7,7 @@
  */
 
 #include "../tasks/header/TaskHandler.h" 
+#include "../semaphore/header/testOutprint.h"
 
 // define Tasks
 void takeMeasure( void *pvParameters );
@@ -38,7 +39,7 @@ void setupTasks(void) // Can only setup 2 tasks, memory problems?
 void takeMeasure(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 24000/portTICK_PERIOD_MS; // 60 s
+	const TickType_t xFrequency = 2000/portTICK_PERIOD_MS; // 60 s
 
 	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -54,7 +55,7 @@ void takeMeasure(void *pvParameters)
 void enqueueMeasures(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 240000/portTICK_PERIOD_MS; // 65 s
+	const TickType_t xFrequency = 22000/portTICK_PERIOD_MS; // 65 s
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -72,7 +73,9 @@ void startTasks()
 {
 	setupTasks();
 	
-	printf("heapsize: %d \n", xPortGetFreeHeapSize());
+	sprintf(printstring, "Heapsize: %d \n", xPortGetFreeHeapSize());
+	//test_outprint(printstring);
+	
 	vTaskStartScheduler(); // Initialize and run the freeRTOS scheduler. Execution should never return from here.
 }
 

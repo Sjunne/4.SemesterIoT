@@ -7,6 +7,7 @@
 #include "../networkdrivers/header/LoRaWANHandler.h"
 #include "../data/header/SharedDataQueue.h"
 #include "rc_servo.h"
+#include "../semaphore/header/testOutprint.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "6818B76654F89545"
@@ -47,28 +48,54 @@ static void _lora_setup(void)
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
 
 	// Factory reset the transceiver
+	//sprintf(printstring, "FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
+	//test_outprint(printstring);
+	
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
 	
+	
 	// Configure to EU868 LoRaWAN standards
+	//sprintf(printstring, "Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
+	//test_outprint(printstring);
+	
 	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
 
-	// Get the transceivers HW EUI
+	// Get the transceivers HW EUI	
 	rc = lora_driver_getRn2483Hweui(_out_buf);
+	
+	//sprintf(printstring, "Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
+	//test_outprint(printstring);
+
 	printf("Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
 
 	// Set the HWEUI as DevEUI in the LoRaWAN software stack in the transceiver
+	//sprintf(printstring, "Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
+	//test_outprint(printstring);
+	
 	printf("Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
 
 	// Set Over The Air Activation parameters to be ready to join the LoRaWAN
+	//sprintf(printstring, "Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
+	//test_outprint(printstring);
+	
 	printf("Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
 
 	// Save all the MAC settings in the transceiver
+	//sprintf(printstring, "Save mac >%s<\n",lora_driver_mapReturnCodeToText(lora_driver_saveMac()));
+	//test_outprint(printstring);
+	
 	printf("Save mac >%s<\n",lora_driver_mapReturnCodeToText(lora_driver_saveMac()));
 
 	// Enable Adaptive Data Rate
+	//sprintf(printstring, "Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
+	//test_outprint(printstring);
+	
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
 
 	// Set receiver window1 delay to 500 ms - this is needed if down-link messages will be used
+	//sprintf(printstring, "Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
+	//test_outprint(printstring);
+	
 	printf("Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
 
 	// Join the LoRaWAN
@@ -76,6 +103,10 @@ static void _lora_setup(void)
 	
 	do {
 		rc = lora_driver_join(LORA_OTAA);
+		
+		//sprintf(printstring, "Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
+		//test_outprint(printstring);
+		
 		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
 
 		if ( rc != LORA_ACCEPTED)
@@ -141,16 +172,18 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		uint16_t growbroId = 1;
-					
 			
-		printf("\t going into delay \n");
+		puts("\t going into delay");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 		// Creating struct and dequeueing data
 		SharedData_t sharedData;
 		sharedData = dequeueSharedData();
 		
-		printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
+		sprintf(printstring, "DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
+		test_outprint(printstring);
+		
+		//printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
 		
 		// CREATING OUR OWN PAYLOAD
 		_uplink_payload.bytes[0] = growbroId >> 8;
@@ -165,7 +198,10 @@ void lora_handler_task( void *pvParameters )
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		
 		// SENDING PAYLOAD
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		//printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		sprintf(printstring, "Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		test_outprint(printstring);
 	
 	}
 

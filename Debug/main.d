@@ -30,7 +30,9 @@ main.d main.o: .././main.c \
  ../drivers/../measuredrivers/header/CO2Handler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../drivers/../measuredrivers/header/TempHumHandler.h \
- ../drivers/../tasks/header/TaskHandler.h
+ ../drivers/../tasks/header/TaskHandler.h \
+ ../drivers/../semaphore/header/testOutprint.h ../FreeRTOS/src/semphr.h \
+ ../FreeRTOS/src/queue.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
@@ -115,3 +117,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../drivers/../measuredrivers/header/TempHumHandler.h:
 
 ../drivers/../tasks/header/TaskHandler.h:
+
+../drivers/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:
