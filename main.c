@@ -26,8 +26,11 @@
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 /*-----------------------------------------------------------*/
 void initialiseSystem()
 {
@@ -42,7 +45,12 @@ void initialiseSystem()
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
 	// Initialise the LoRaWAN driver without down-link buffer
+<<<<<<< Updated upstream
 	lora_driver_initialise(1, NULL);
+=======
+	downlinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t));
+	lora_driver_initialise(ser_USART1, downlinkMessageBufferHandle);
+>>>>>>> Stashed changes
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
 	
@@ -61,8 +69,11 @@ int main(void)
 	initialiseSystem(); // Must be done as the very first thing!!
 	printf("Program Started!!\n");
 	startTasks();
+<<<<<<< Updated upstream
 
 	/* Replace with your application code */
+=======
+>>>>>>> Stashed changes
 	while (1)
 	{
 	}

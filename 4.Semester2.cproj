@@ -46,7 +46,11 @@
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
+<<<<<<< Updated upstream
           <JtagDbgClock>1113231</JtagDbgClock>
+=======
+          <JtagDbgClock>1270192</JtagDbgClock>
+>>>>>>> Stashed changes
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
@@ -55,6 +59,7 @@
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
+<<<<<<< Updated upstream
     <avrtoolinterfaceclock>1113231</avrtoolinterfaceclock>
     <custom>
       <ToolOptions xmlns="">
@@ -67,11 +72,19 @@
       </ToolNumber>
       <ToolName xmlns="">Custom Programming Tool</ToolName>
     </custom>
+=======
+    <avrtoolinterfaceclock>1270192</avrtoolinterfaceclock>
+>>>>>>> Stashed changes
     <com_atmel_avrdbg_tool_simulator>
       <ToolOptions xmlns="">
         <InterfaceProperties>
         </InterfaceProperties>
+<<<<<<< Updated upstream
         <InterfaceName>JTAG</InterfaceName>
+=======
+        <InterfaceName>
+        </InterfaceName>
+>>>>>>> Stashed changes
       </ToolOptions>
       <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
       <ToolNumber xmlns="">

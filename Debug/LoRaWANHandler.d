@@ -22,7 +22,19 @@ LoRaWANHandler.d LoRaWANHandler.o: .././LoRaWANHandler.c \
  ../FreeRTOS/src/list.h ../drivers/lora_driver.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
+<<<<<<< Updated upstream:Debug/LoRaWANHandler.d
  ../drivers/serial.h ../drivers/status_leds.h
+=======
+ ../drivers/serial.h ../drivers/status_leds.h \
+ ../networkdrivers/../data/header/SharedDataQueue.h \
+ ../FreeRTOS/src/queue.h ../drivers/../measuredrivers/header/CO2Handler.h \
+ ../drivers/mh_z19.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ ../drivers/../measuredrivers/header/TempHumHandler.h \
+ ../drivers/hih8120.h ../drivers/rc_servo.h
+
+../networkdrivers/../networkdrivers/header/LoRaWANHandler.h:
+>>>>>>> Stashed changes:Debug/networkdrivers/LoRaWANHandlerImpl.d
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
@@ -85,3 +97,22 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../drivers/serial.h:
 
 ../drivers/status_leds.h:
+<<<<<<< Updated upstream:Debug/LoRaWANHandler.d
+=======
+
+../networkdrivers/../data/header/SharedDataQueue.h:
+
+../FreeRTOS/src/queue.h:
+
+../drivers/../measuredrivers/header/CO2Handler.h:
+
+../drivers/mh_z19.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+../drivers/../measuredrivers/header/TempHumHandler.h:
+
+../drivers/hih8120.h:
+
+../drivers/rc_servo.h:
+>>>>>>> Stashed changes:Debug/networkdrivers/LoRaWANHandlerImpl.d
