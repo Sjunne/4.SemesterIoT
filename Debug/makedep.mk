@@ -34,6 +34,8 @@ networkdrivers\LoRaWANHandlerImpl.c
 
 semaphore\testOutprintImpl.c
 
+servodrivers\ServoHandlerImpl.c
+
 tasks\TaskHandlerImpl.c
 
 main.c

@@ -6,8 +6,8 @@
 */
 #include "../networkdrivers/header/LoRaWANHandler.h"
 #include "../data/header/SharedDataQueue.h"
-#include "rc_servo.h"
 #include "../semaphore/header/testOutprint.h"
+#include "../servodrivers/header/ServoHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 //#define LORA_appEUI "6818B76654F89545"
@@ -167,12 +167,14 @@ void lora_handler_task( void *pvParameters )
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
-	uint16_t recieve;
 
 	for(;;)
 	{
 		uint16_t growbroId = 1;
-			
+		
+		//handleServoRequest(5);
+		//handleServoRequest(1);
+		
 		puts("\t going into delay");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
@@ -219,11 +221,6 @@ void task_download( void *pvParameters )
 
 	//lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	
-	//// JUST FOR SERVO
-	//rc_servo_initialise();
-	//uint8_t servoNo = 1;
-	//int8_t percent = 100;
-	//rc_servo_setPosition(servoNo, percent);
 	
 	uint16_t recieve;
 	lora_driver_payload_t downlinkPayload;
@@ -234,13 +231,18 @@ void task_download( void *pvParameters )
 	{	
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
-
+		
+		recieve = 1;
 		
 		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
 		{
 			
-		recieve = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+		recieve = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+		
+		
 		}
+		
+		
 
 	}
 }

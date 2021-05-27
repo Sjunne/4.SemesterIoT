@@ -74,15 +74,15 @@ void enqueueSharedData()
 	}
 	else {
 		// Average calc of co2
-		co2res = (co2 / (counter + 1));
+		co2res = (co2 / counter);
 		co2 = (uint16_t) co2res;
 		
 		// Average calc of temperature
-		tempres = (temp / (counter + 1));
+		tempres = (temp / counter);
 		temp = (int16_t) tempres;
 		
 		// Average calc of humidity
-		humres = (hum / (counter + 1));
+		humres = (hum / counter);
 		hum = (uint16_t) humres;
 
 		shared->co2 = co2;

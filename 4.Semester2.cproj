@@ -327,6 +327,12 @@
     <Compile Include="semaphore\testOutprintImpl.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="servodrivers\header\ServoHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="servodrivers\ServoHandlerImpl.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="tasks\header\TaskHandler.h">
       <SubType>compile</SubType>
     </Compile>
@@ -348,8 +354,10 @@
     <Folder Include="networkdrivers" />
     <Folder Include="networkdrivers\header" />
     <Folder Include="data" />
+    <Folder Include="servodrivers" />
     <Folder Include="semaphore" />
     <Folder Include="semaphore\header" />
+    <Folder Include="servodrivers\header" />
     <Folder Include="tasks" />
     <Folder Include="tasks\header" />
   </ItemGroup>

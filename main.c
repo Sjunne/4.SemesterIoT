@@ -13,12 +13,11 @@
 
 #include <serial.h>
 #include <string.h>
-#include <mh_z19.h>
-#include <hih8120.h>
 #include "../data/header/SharedDataQueue.h"
 #include "../tasks/header/TaskHandler.h"
 #include "../measuredrivers/header/CO2Handler.h"
 #include "../measuredrivers/header/TempHumHandler.h"
+#include "../servodrivers/header/ServoHandler.h"
 #include "../semaphore/header/testOutprint.h"
 
 
@@ -40,7 +39,10 @@ void initialiseSystem()
 
 	// Initializing co2 sensor
 	mh_z19_initialise(ser_USART3);
+	// Initializing temperature & humidity sensor
 	hih8120_initialise();
+	// Initializing servo
+	rc_servo_initialise();
 
 
 

@@ -25,12 +25,12 @@ main.d main.o: .././main.c \
  ../FreeRTOS/src/message_buffer.h ../FreeRTOS/src/stream_buffer.h \
  ../drivers/serial.h ../drivers/status_leds.h ../FreeRTOS/src/task.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- ../drivers/mh_z19.h ../drivers/hih8120.h \
  ../drivers/../data/header/SharedDataQueue.h ../FreeRTOS/src/queue.h \
- ../drivers/../measuredrivers/header/CO2Handler.h \
+ ../drivers/../measuredrivers/header/CO2Handler.h ../drivers/mh_z19.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../drivers/../measuredrivers/header/TempHumHandler.h \
- ../drivers/../tasks/header/TaskHandler.h \
+ ../drivers/hih8120.h ../drivers/../tasks/header/TaskHandler.h \
+ ../drivers/../servodrivers/header/ServoHandler.h ../drivers/rc_servo.h \
  ../drivers/../semaphore/header/testOutprint.h ../FreeRTOS/src/semphr.h \
  ../FreeRTOS/src/queue.h
 
@@ -102,21 +102,25 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
-../drivers/mh_z19.h:
-
-../drivers/hih8120.h:
-
 ../drivers/../data/header/SharedDataQueue.h:
 
 ../FreeRTOS/src/queue.h:
 
 ../drivers/../measuredrivers/header/CO2Handler.h:
 
+../drivers/mh_z19.h:
+
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
 ../drivers/../measuredrivers/header/TempHumHandler.h:
 
+../drivers/hih8120.h:
+
 ../drivers/../tasks/header/TaskHandler.h:
+
+../drivers/../servodrivers/header/ServoHandler.h:
+
+../drivers/rc_servo.h:
 
 ../drivers/../semaphore/header/testOutprint.h:
 
