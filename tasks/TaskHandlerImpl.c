@@ -39,7 +39,7 @@ void setupTasks(void) // Can only setup 2 tasks, memory problems?
 void takeMeasure(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 3000/portTICK_PERIOD_MS; // 60 s
+	const TickType_t xFrequency = 30000/portTICK_PERIOD_MS; // 60 s
 
 	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -55,7 +55,7 @@ void takeMeasure(void *pvParameters)
 void enqueueMeasures(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 30000/portTICK_PERIOD_MS; // 65 s
+	const TickType_t xFrequency = 300000/portTICK_PERIOD_MS; // 65 s
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();

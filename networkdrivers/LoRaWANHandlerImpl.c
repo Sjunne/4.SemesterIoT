@@ -10,12 +10,12 @@
 #include "../semaphore/header/testOutprint.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "6818B76654F89545"
-#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
+//#define LORA_appEUI "6818B76654F89545"
+//#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
 //Lars' kode
-//#define LORA_appEUI "BD80B543CA612714"
-//#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
+#define LORA_appEUI "BD80B543CA612714"
+#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
 
 void lora_handler_task( void *pvParameters );
 void task_download( void *pvParameters );
@@ -217,7 +217,7 @@ void task_download( void *pvParameters )
 	// Give it a chance to wakeup
 	vTaskDelay(150);
 
-	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
+	//lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	
 	//// JUST FOR SERVO
 	//rc_servo_initialise();
@@ -225,11 +225,11 @@ void task_download( void *pvParameters )
 	//int8_t percent = 100;
 	//rc_servo_setPosition(servoNo, percent);
 	
-	
+	uint16_t recieve;
 	lora_driver_payload_t downlinkPayload;
 	downlinkPayload.portNo = 2;
 	downlinkPayload.len = 4;
-	uint16_t recieve;
+
 	for(;;)
 	{	
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
