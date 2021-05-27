@@ -13,6 +13,7 @@
 #include "../measuredrivers/header/TempHumHandler.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct SharedData {
 	uint16_t co2;

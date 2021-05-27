@@ -20,6 +20,7 @@ void enqueueSharedData()
 {
 	TickType_t xDelay = 25/portTICK_PERIOD_MS;
 	int counter = 0;
+	bool flag = false;
 	
 	uint16_t co2 = 0;
 	int16_t temp = 0;
@@ -29,32 +30,65 @@ void enqueueSharedData()
 	int tempres = 0;
 	int humres = 0;
 	while (counter < 10) {
-		co2 += dequeueCO2Measure();
+		int dequeuemeasure;
+		
+		dequeuemeasure = dequeueCO2Measure();
+		if (dequeuemeasure == 0)
+		{
+			flag = true;
+		}
+		else {
+			co2 += dequeuemeasure;
+			vTaskDelay(xDelay);
+		}
+		
+		dequeuemeasure = dequeueTempMeasure();
+		if (dequeuemeasure == 0)
+		{
+			flag = true;
+		}
+		else {
+		temp += dequeuemeasure;
 		vTaskDelay(xDelay);
-		temp += dequeueTempMeasure();
+		}
+		
+		dequeuemeasure = dequeueHumidityMeasure();
+		if (dequeuemeasure == 0)
+		{
+			flag = true;
+		}
+		else {
+		hum += dequeuemeasure;
 		vTaskDelay(xDelay);
-		hum += dequeueHumidityMeasure();
-		vTaskDelay(xDelay);
+		}
 		counter++;
 	}
 	
-	
-	co2res = (co2 / (counter + 1));
-	co2 = (uint16_t) co2res;
-	
-	tempres = (temp / (counter + 1));
-	temp = (int16_t) tempres;
-	
-	humres = (hum / (counter + 1));
-	hum = (uint16_t) humres;
-	
-	
-
-
 	SharedData_t shared = &sharedData;
-	shared->co2 = co2;
-	shared->temperature = temp;
-	shared->humidity = hum;
+		
+	if (flag)
+	{
+		shared->co2 = 0;
+		shared->temperature = 0;
+		shared->humidity = 0;
+	}
+	else {
+		// Average calc of co2
+		co2res = (co2 / (counter + 1));
+		co2 = (uint16_t) co2res;
+		
+		// Average calc of temperature
+		tempres = (temp / (counter + 1));
+		temp = (int16_t) tempres;
+		
+		// Average calc of humidity
+		humres = (hum / (counter + 1));
+		hum = (uint16_t) humres;
+
+		shared->co2 = co2;
+		shared->temperature = temp;
+		shared->humidity = hum;
+	}
 
 	printf("ENQUEUE: humidity: %d, co2: %d, Temp: %d \n", shared->humidity, shared->co2, shared->temperature);
 

@@ -49,7 +49,9 @@ void tempHumMeasure()
 	xTaskDelayUntil( &xLastWakeTime, xFrequency2 );
 	if(HIH8120_OK != hih8120_measure())
 	{
-		puts("Measure gik galt");
+		puts("Humidity & temperature measure went wrong");
+		enqueueHumidity(0);
+		enqueueTemperature(0);
 	}
 	xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	

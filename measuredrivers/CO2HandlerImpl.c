@@ -33,6 +33,7 @@ void co2Measure() {
 	else
 	{
 		puts("Det gik galt");
+		enqueueCO2Measure(0);
 	}
 }
 
