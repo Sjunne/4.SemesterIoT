@@ -6,6 +6,7 @@
  */ 
 
 #include "../servodrivers/header/ServoHandler.h"
+#include "../semaphore/header/testOutprint.h"
 
 
 void handleServoRequest(int requestcode) {
