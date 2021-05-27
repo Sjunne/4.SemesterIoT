@@ -15,25 +15,25 @@ void handleServoRequest(int requestcode) {
 
 	switch(requestcode) {
 		case 1: {
-			test_outprint("Water growbro");
+			test_outprint("Water growbro \n");
 			percent = 100;
 			rc_servo_setPosition(servoNo, percent);
 			break;
 		}
 		case 2: {
-			test_outprint("Open window");
+			test_outprint("Open window \n");
 			percent = -100;
 			rc_servo_setPosition(servoNo, percent);
 			break;
 		}
 		case 3: {
-			test_outprint("Close window");
+			test_outprint("Close window \n");
 			percent = -50;
 			rc_servo_setPosition(servoNo, percent);
 			break;
 		}
 		case 4: {
-			test_outprint("Water growbro & open window");
+			test_outprint("Water growbro & open window \n");
 			percent = 100;
 			rc_servo_setPosition(servoNo, percent);
 			percent = -100;
@@ -41,7 +41,7 @@ void handleServoRequest(int requestcode) {
 			break;
 		}
 		case 5: {
-			test_outprint("Water growbro & close window");
+			test_outprint("Water growbro & close window \n");
 			percent = 100;
 			rc_servo_setPosition(servoNo, percent);
 			percent = -50;

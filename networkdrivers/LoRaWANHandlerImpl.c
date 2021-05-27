@@ -10,12 +10,12 @@
 #include "../servodrivers/header/ServoHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-//#define LORA_appEUI "6818B76654F89545"
-//#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
+#define LORA_appEUI "6818B76654F89545"
+#define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
 //Lars' kode
-#define LORA_appEUI "BD80B543CA612714"
-#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
+//#define LORA_appEUI "BD80B543CA612714"
+//#define LORA_appKEY "8F4CE00051E8B6ADBC09BFDC65EED535"
 
 void lora_handler_task( void *pvParameters );
 void task_download( void *pvParameters );
@@ -29,14 +29,14 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 	,  "LRHand"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  ((UBaseType_t)2)  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 		xTaskCreate(
 	task_download
 	,  "LRHanddown"  // A name just for humans
 	,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
 	,  NULL
-	,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  ((UBaseType_t)3)  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 }
 
@@ -172,9 +172,6 @@ void lora_handler_task( void *pvParameters )
 	{
 		uint16_t growbroId = 1;
 		
-		//handleServoRequest(5);
-		//handleServoRequest(1);
-		
 		puts("\t going into delay");
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
@@ -211,7 +208,6 @@ void lora_handler_task( void *pvParameters )
 
 void task_download( void *pvParameters )
 {
-
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
@@ -219,8 +215,7 @@ void task_download( void *pvParameters )
 	// Give it a chance to wakeup
 	vTaskDelay(150);
 
-	//lora_driver_flushBuffers(); // get rid of first version string from module after reset!
-	
+	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	
 	uint16_t recieve;
 	lora_driver_payload_t downlinkPayload;
@@ -228,22 +223,18 @@ void task_download( void *pvParameters )
 	downlinkPayload.len = 4;
 
 	for(;;)
-	{	
+	{		
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
-		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
 		
-		recieve = 1;
+		sprintf(printstring, "DOWN LINK: from port: %d with %d bytes received! \n", downlinkPayload.portNo, downlinkPayload.len);
+		test_outprint(printstring);
 		
 		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
-		{
-			
+		{	
 		recieve = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
 		
-		
+		handleServoRequest(recieve);
 		}
-		
-		
-
 	}
 }
 

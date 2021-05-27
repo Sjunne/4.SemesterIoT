@@ -23,7 +23,8 @@ servodrivers/ServoHandlerImpl.d servodrivers/ServoHandlerImpl.o: \
  ../FreeRTOS/src/list.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- ../drivers/rc_servo.h
+ ../drivers/rc_servo.h ../servodrivers/../semaphore/header/testOutprint.h \
+ ../FreeRTOS/src/task.h ../FreeRTOS/src/semphr.h ../FreeRTOS/src/queue.h
 
 ../servodrivers/../servodrivers/header/ServoHandler.h:
 
@@ -78,3 +79,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
 ../drivers/rc_servo.h:
+
+../servodrivers/../semaphore/header/testOutprint.h:
+
+../FreeRTOS/src/task.h:
+
+../FreeRTOS/src/semphr.h:
+
+../FreeRTOS/src/queue.h:
