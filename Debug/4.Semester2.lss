@@ -8162,7 +8162,6 @@ static void _lora_setup(void)
     3760:	de bf       	out	0x3e, r29	; 62
     3762:	0f be       	out	0x3f, r0	; 63
     3764:	cd bf       	out	0x3d, r28	; 61
-
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
@@ -8170,9 +8169,6 @@ static void _lora_setup(void)
     3768:	0e 94 df 29 	call	0x53be	; 0x53be <status_leds_slowBlink>
 
 	// Factory reset the transceiver
-	//sprintf(printstring, "FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
-	//test_outprint(printstring);
-	
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
     376c:	35 d5       	rcall	.+2666   	; 0x41d8 <lora_driver_rn2483FactoryReset>
     376e:	b1 d7       	rcall	.+3938   	; 0x46d2 <lora_driver_mapReturnCodeToText>
@@ -8184,10 +8180,8 @@ static void _lora_setup(void)
     377a:	8f 93       	push	r24
     377c:	0e 94 9b 2f 	call	0x5f36	; 0x5f36 <printf>
 	
-	// Configure to EU868 LoRaWAN standards
-	//sprintf(printstring, "Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
-	//test_outprint(printstring);
 	
+	// Configure to EU868 LoRaWAN standards
 	printf("Configure to EU868 >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_configureToEu868()));
     3780:	a9 d6       	rcall	.+3410   	; 0x44d4 <lora_driver_configureToEu868>
     3782:	a7 d7       	rcall	.+3918   	; 0x46d2 <lora_driver_mapReturnCodeToText>
@@ -8208,9 +8202,6 @@ static void _lora_setup(void)
     379c:	2f d5       	rcall	.+2654   	; 0x41fc <lora_driver_getRn2483Hweui>
     379e:	99 d7       	rcall	.+3890   	; 0x46d2 <lora_driver_mapReturnCodeToText>
 	
-	//sprintf(printstring, "Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
-	//test_outprint(printstring);
-
 	printf("Get HWEUI >%s<: %s\n",lora_driver_mapReturnCodeToText(rc), _out_buf);
     37a0:	1f 93       	push	r17
     37a2:	0f 93       	push	r16
@@ -8223,9 +8214,6 @@ static void _lora_setup(void)
     37b0:	0e 94 9b 2f 	call	0x5f36	; 0x5f36 <printf>
 
 	// Set the HWEUI as DevEUI in the LoRaWAN software stack in the transceiver
-	//sprintf(printstring, "Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
-	//test_outprint(printstring);
-	
 	printf("Set DevEUI: %s >%s<\n", _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setDeviceIdentifier(_out_buf)));
     37b4:	c8 01       	movw	r24, r16
     37b6:	3e d5       	rcall	.+2684   	; 0x4234 <lora_driver_setDeviceIdentifier>
@@ -8242,9 +8230,6 @@ static void _lora_setup(void)
     37ce:	a8 01       	movw	r20, r16
 
 	// Set Over The Air Activation parameters to be ready to join the LoRaWAN
-	//sprintf(printstring, "Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
-	//test_outprint(printstring);
-	
 	printf("Set OTAA Identity appEUI:%s appKEY:%s devEUI:%s >%s<\n", LORA_appEUI, LORA_appKEY, _out_buf, lora_driver_mapReturnCodeToText(lora_driver_setOtaaIdentity(LORA_appEUI,LORA_appKEY,_out_buf)));
     37d0:	68 e2       	ldi	r22, 0x28	; 40
     37d2:	74 e0       	ldi	r23, 0x04	; 4
@@ -8271,9 +8256,6 @@ static void _lora_setup(void)
     37fc:	0e 94 9b 2f 	call	0x5f36	; 0x5f36 <printf>
 
 	// Save all the MAC settings in the transceiver
-	//sprintf(printstring, "Save mac >%s<\n",lora_driver_mapReturnCodeToText(lora_driver_saveMac()));
-	//test_outprint(printstring);
-	
 	printf("Save mac >%s<\n",lora_driver_mapReturnCodeToText(lora_driver_saveMac()));
     3800:	4c d5       	rcall	.+2712   	; 0x429a <lora_driver_saveMac>
     3802:	67 d7       	rcall	.+3790   	; 0x46d2 <lora_driver_mapReturnCodeToText>
@@ -8286,9 +8268,6 @@ static void _lora_setup(void)
     3810:	0e 94 9b 2f 	call	0x5f36	; 0x5f36 <printf>
 
 	// Enable Adaptive Data Rate
-	//sprintf(printstring, "Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
-	//test_outprint(printstring);
-	
 	printf("Set Adaptive Data Rate: ON >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_setAdaptiveDataRate(LORA_ON)));
     3814:	0f b6       	in	r0, 0x3f	; 63
     3816:	f8 94       	cli
@@ -8307,9 +8286,6 @@ static void _lora_setup(void)
     3830:	0e 94 9b 2f 	call	0x5f36	; 0x5f36 <printf>
 
 	// Set receiver window1 delay to 500 ms - this is needed if down-link messages will be used
-	//sprintf(printstring, "Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
-	//test_outprint(printstring);
-	
 	printf("Set Receiver Delay: %d ms >%s<\n", 500, lora_driver_mapReturnCodeToText(lora_driver_setReceiveDelay(500)));
     3834:	84 ef       	ldi	r24, 0xF4	; 244
     3836:	91 e0       	ldi	r25, 0x01	; 1
@@ -8342,9 +8318,6 @@ static void _lora_setup(void)
     3862:	21 d5       	rcall	.+2626   	; 0x42a6 <lora_driver_join>
     3864:	08 2f       	mov	r16, r24
     3866:	35 d7       	rcall	.+3690   	; 0x46d2 <lora_driver_mapReturnCodeToText>
-		
-		//sprintf(printstring, "Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
-		//test_outprint(printstring);
 		
 		printf("Join Network TriesLeft:%d >%s<\n", maxJoinTriesLeft, lora_driver_mapReturnCodeToText(rc));
     3868:	9f 93       	push	r25
@@ -8452,7 +8425,6 @@ void lora_handler_task( void *pvParameters )
     38e4:	1f 92       	push	r1
     38e6:	cd b7       	in	r28, 0x3d	; 61
     38e8:	de b7       	in	r29, 0x3e	; 62
-
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
     38ea:	81 e0       	ldi	r24, 0x01	; 1
