@@ -4,8 +4,17 @@ IoT project
 
 Outlink/Downlink documentation
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| End-Points        | JsonFormat                                   | Cool  |
+| ------------------|:--------------------------------------------:| -----:|
+| Water Now         |     {
+                              "cmd"        : "tx",
+                              "EUI"        : "0004A30B002527E4",
+                              "port"       : 2,
+                              "confirmed"  : true,
+                              "data"       : "00000001"
+                          }
+
+
+| $1600 |
+| col 2 is          | centered                                    |   $12 |
+| zebra stripes     | are neat                                    |    $1 |
