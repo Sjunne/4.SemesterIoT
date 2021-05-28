@@ -48,9 +48,9 @@ void handleServoRequest(int requestcode) {
 			rc_servo_setPosition(servoNo, percent);
 			break;
 		}
+		// If code doesn't represent something that we can use
 		default: {
 			puts("Unknown request code");
-
 		}
 	}
 }

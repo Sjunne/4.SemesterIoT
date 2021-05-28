@@ -9,21 +9,19 @@
 
 
 void test_outprint(char* outprint) {
+	// Check to see if semaphore is free
 	if( xSemaphoreTake( xSemaphore, ( TickType_t ) 100 ) == pdTRUE )
 	{
-		printf(outprint);
-		//TickType_t xDelay = 100 / portTICK_PERIOD_MS;
-		//vTaskDelay(xDelay);
+		// Protecting critical section
+		printf(outprint);		
 		
+		// Releasing semaphore again
 		xSemaphoreGive( xSemaphore );
 	}
 	else
 	{ 
 		puts("The semaphore was already taken");
 	}
-	
-
-	
 }
 
 void initializeSemaphore(){

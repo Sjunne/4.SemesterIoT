@@ -9,7 +9,7 @@
 #include "../semaphore/header/testOutprint.h"
 #include "../servodrivers/header/ServoHandler.h"
 
-// Parameters for OTAA join - You have got these in a mail from IHA
+// Parameters for OTAA join
 #define LORA_appEUI "6818B76654F89545"
 #define LORA_appKEY "B9AEC9CA7423D899CAA89AE8A165EBD0"
 
@@ -165,7 +165,7 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // UNDER TESTING 30000 (30 sec) Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(600000UL); // Upload message every 10 minutes (600000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 
 	for(;;)
@@ -184,7 +184,7 @@ void lora_handler_task( void *pvParameters )
 		
 		//printf("DEQUEUE: humidity: %d, co2: %d, Temp: %d \n", sharedData->humidity, sharedData->co2, sharedData->temperature);
 		
-		// CREATING OUR OWN PAYLOAD
+		// CREATING OUR OWN PAYLOAD: GrowbroId, CO2, Humidity & Temperature
 		_uplink_payload.bytes[0] = growbroId >> 8;
 		_uplink_payload.bytes[1] = growbroId & 0xFF;
 		_uplink_payload.bytes[2] = sharedData->co2 >> 8;
@@ -193,15 +193,10 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[5] = sharedData->humidity & 0xFF;
 		_uplink_payload.bytes[6] = sharedData->temperature >> 8;
 		_uplink_payload.bytes[7] = sharedData->temperature & 0xFF;
-
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		
-		// SENDING PAYLOAD
-		//printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-		
+		// SENDING PAYLOAD	
 		sprintf(printstring, "Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 		test_outprint(printstring);
-	
 	}
 
 }
@@ -217,23 +212,32 @@ void task_download( void *pvParameters )
 
 	lora_driver_flushBuffers(); // get rid of first version string from module after reset!
 	
-	uint16_t recieve;
+	// Declaring requestCode & Payload
+	uint16_t requestCode;
 	lora_driver_payload_t downlinkPayload;
+	
+	// Setting portNo & length for payload
 	downlinkPayload.portNo = 2;
 	downlinkPayload.len = 4;
 
 	for(;;)
 	{		
+		// Receiving from LoRaWAN 
 		xMessageBufferReceive(downlinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 		
-		sprintf(printstring, "DOWN LINK: from port: %d with %d bytes received! \n", downlinkPayload.portNo, downlinkPayload.len);
+		sprintf(printstring, "DOWN LINK: %d bytes received! \n", downlinkPayload.len);
 		test_outprint(printstring);
 		
-		if (4 == downlinkPayload.len) // Check that we have got the expected 4 bytes
+		if (4 == downlinkPayload.len) // Check that we've received the expected 4 bytes
 		{	
-		recieve = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+		//Converting bytes to integer
+		requestCode = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
 		
-		handleServoRequest(recieve);
+		sprintf(printstring, "Requestcode received from downlink: %d \n", requestCode);
+		test_outprint(printstring);
+		
+		//Calling servo to handle request
+		handleServoRequest(requestCode);
 		}
 	}
 }

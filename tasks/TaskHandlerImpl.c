@@ -39,7 +39,7 @@ void setupTasks(void) // Can only setup 2 tasks, memory problems?
 void takeMeasure(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 30000/portTICK_PERIOD_MS; // 60 s
+	const TickType_t xFrequency = 60000/portTICK_PERIOD_MS; // 60 s
 
 	// Initialize the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -47,15 +47,15 @@ void takeMeasure(void *pvParameters)
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		tempHumMeasure();	
-		co2Measure(); // Call CO2HandlerImpl to take measure
+		tempHumMeasure(); // Call TempHumHandler to take measure
+		co2Measure(); // Call CO2Handler to take measure
 	}
 }
 
 void enqueueMeasures(void *pvParameters)
 {
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = 300000/portTICK_PERIOD_MS; // 65 s
+	const TickType_t xFrequency = 600000/portTICK_PERIOD_MS; // 10 minutes
 
 	// Initialise the xLastWakeTime variable with the current time.
 	xLastWakeTime = xTaskGetTickCount();
@@ -64,7 +64,7 @@ void enqueueMeasures(void *pvParameters)
 	for(;;)
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
-		enqueueSharedData(); // Call SharedDataQueueImpl to enqueue the measures
+		enqueueSharedData(); // Call SharedDataQueue to enqueue the measures
 	}
 }
 
@@ -73,7 +73,7 @@ void startTasks()
 {
 	setupTasks();
 	
-	sprintf(printstring, "Heapsize: %d \n", xPortGetFreeHeapSize());
+	sprintf(printstring, "Heapsize: %d \n", xPortGetFreeHeapSize()); // Check to see if there is enough heap
 	//test_outprint(printstring);
 	
 	vTaskStartScheduler(); // Initialize and run the freeRTOS scheduler. Execution should never return from here.

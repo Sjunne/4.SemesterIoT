@@ -36,6 +36,9 @@ void initialiseSystem()
 	initializeCO2Queue();
 	initializeTempHumQueues();
 	initializeSharedDataQueue();
+	
+	// Initializing semaphore for test outprints
+	initializeSemaphore();
 
 	// Initializing co2 sensor
 	mh_z19_initialise(ser_USART3);
@@ -61,8 +64,6 @@ void initialiseSystem()
 int main(void)
 {
 	initialiseSystem(); // Must be done as the very first thing!!
-	
-	initializeSemaphore();
 	
 	puts("Program started!");
 	
